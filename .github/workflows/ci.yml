@@ -21,7 +21,7 @@ jobs:
       - name: Testes (exemplos + propriedades + REST/Spring)
         run: mvn -B test
       - name: Mutação com PIT (plugin Maven)
-        run: mvn -B -DskipTests test-compile org.pitest:pitest-maven:mutationCoverage
+        run: mvn -B test-compile org.pitest:pitest-maven:mutationCoverage
       - name: Resumo do PIT
         run: |
           python3 - <<'EOF'
