@@ -11,3 +11,5 @@ artigo/*.bbl
 artigo/*.blg
 artigo/*.out
 __pycache__/
+artigo/*.fdb_latexmk
+artigo/*.fls

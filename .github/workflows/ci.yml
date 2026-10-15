@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  java:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Testes (exemplos + propriedades + REST/Spring)
+        run: mvn -B test
+      - name: Mutação com PIT (plugin Maven)
+        run: mvn -B -DskipTests test-compile org.pitest:pitest-maven:mutationCoverage
+      - name: Resumo do PIT
+        run: |
+          python3 - <<'EOF'
+          import collections, xml.etree.ElementTree as ET
+          r = ET.parse('target/pit-reports/mutations.xml').getroot()
+          c = collections.Counter(m.get('status') for m in r.iter('mutation'))
+          det = c['KILLED'] + c['TIMED_OUT']
+          val = det + c['SURVIVED'] + c['NO_COVERAGE']
+          print(dict(c), f"gerados={sum(c.values())}", f"mutation_score={100*det/val:.2f}%")
+          EOF
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pit-reports
+          path: java-api/target/pit-reports
+
+  node:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: node-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: node-api/package-lock.json
+      - run: npm ci
+      - name: Testes (exemplos + propriedades + REST)
+        run: npm test
+      - name: Mutação com StrykerJS
+        run: npx stryker run

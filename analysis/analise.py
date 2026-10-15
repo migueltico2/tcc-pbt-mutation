@@ -106,9 +106,12 @@ for metrica in ["mutation_score", "mutation_score_comuns", "mutation_score_sem_a
 testes = pd.DataFrame(testes)
 testes.to_csv(OUT / "testes_estatisticos.csv", index=False)
 
-# Teste por mutante nas categorias comuns (agregado nas execuções): qui-quadrado detectado × não detectado
-cont = (mut[mut.valido & mut.categoria.isin(COMUNS)]
-        .groupby("ecossistema").detectado.agg(["sum", "count"]))
+# Teste por mutante nas categorias comuns: qui-quadrado detectado × não detectado.
+# Unidade de análise = mutante distinto (não mutante × execução, que contaria cada mutante 30 vezes
+# e inflaria a amostra). Um mutante conta como detectado se foi detectado na maioria das execuções.
+por_mutante = (mut[mut.valido & mut.categoria.isin(COMUNS)]
+               .groupby(["ecossistema", "mutante_id"]).detectado.mean().ge(0.5).reset_index())
+cont = por_mutante.groupby("ecossistema").detectado.agg(["sum", "count"])
 tab = np.array([[cont.loc[e, "sum"], cont.loc[e, "count"] - cont.loc[e, "sum"]] for e in ["java", "node"]])
 chi2, p_chi, _, _ = stats.chi2_contingency(tab)
 qui = {"tabela_detectado_nao": tab.tolist(), "chi2": chi2, "p_valor": p_chi}
