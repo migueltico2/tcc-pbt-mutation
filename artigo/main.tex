@@ -1,0 +1,83 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------------ pacotes
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{times}
+\usepackage[a4paper,top=3.5cm,bottom=2.5cm,left=3cm,right=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{float}
+\renewcommand{\topfraction}{0.9}\renewcommand{\bottomfraction}{0.8}\renewcommand{\textfraction}{0.07}\renewcommand{\floatpagefraction}{0.75}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage[square,authoryear]{natbib}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=2pt,topsep=4pt}
+\renewcommand{\arraystretch}{1.15}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\bibpunct{[}{]}{;}{a}{,}{,}
+
+% Títulos de seção no estilo SBC
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}{-12pt}{6pt}{\normalfont\large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}{-12pt}{4pt}{\normalfont\normalsize\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}{-8pt}{2pt}{\normalfont\normalsize\bfseries\itshape}}
+\makeatother
+
+\newcommand{\ms}{\textit{mutation score}}
+\newcommand{\MT}{\textit{Mutation Testing}}
+
+\begin{document}
+
+% ------------------------------------------------------------------ título
+\begin{center}
+  {\Large\bfseries Análise Comparativa da Efetividade de Testes Baseados em\\
+  Propriedades em APIs REST Java/Spring Boot e\\
+  Node.js/Express por meio de \textit{Mutation Testing}\par}
+  \vspace{12pt}
+  {\large Miguel Vieira\textsuperscript{1}\par}
+  \vspace{6pt}
+  {\small \textsuperscript{1}Bacharelado em Engenharia de Software\\
+  Pontifícia Universidade Católica de Minas Gerais (PUC Minas)\\
+  Belo Horizonte -- MG -- Brasil\\
+  \texttt{miguel.souza.1447219@sga.pucminas.br}\par}
+\end{center}
+
+\input{secoes/resumo}
+
+\vspace{6pt}
+\noindent\begin{minipage}{\textwidth}\small
+\textbf{Bacharelado em Engenharia de Software -- PUC Minas}\\
+Trabalho de Conclusão de Curso (TCC)\\
+Orientadores de conteúdo (TCC I): Danilo Maia, João Pedro Batisteli e Leonardo Vilela\\
+Orientador acadêmico (TCC I): Cleiton Tavares\\
+Orientador do TCC II: \textcolor{red}{[preencher]}\\
+Belo Horizonte, \textcolor{red}{[data da entrega]} de 2026.
+\end{minipage}
+
+\input{secoes/introducao}
+\input{secoes/fundamentacao}
+\input{secoes/relacionados}
+\input{secoes/metodo}
+\input{secoes/resultados}
+\input{secoes/ameacas}
+\input{secoes/conclusao}
+
+\bibliographystyle{plainnat}
+\bibliography{referencias}
+
+\end{document}

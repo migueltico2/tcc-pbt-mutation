@@ -1,0 +1,13 @@
+\begin{center}\textbf{Abstract}\end{center}
+\vspace{-6pt}
+{\small\noindent\itshape
+Property-Based Testing (PBT) checks general properties over automatically generated inputs, and Mutation Testing measures whether a test suite detects artificial faults. This work compares the effectiveness of equivalent PBT suites applied to two equivalent implementations of a REST API for event and ticket-reservation management, one in Java/Spring Boot (jqwik, PIT) and one in Node.js/Express (fast-check, StrykerJS). Eight properties derived from business rules were run 30 times per ecosystem. The mutation score was 50.0\% in Java and 52.2\% in Node.js; the difference is statistically significant (Mann-Whitney, $p < 0.001$) but small, and it vanishes for mutants of the same kind (30.8\% vs.\ 29.2\% for boundary mutants), because the two tools generate different operator mixes. Line coverage exceeded 91\% in both ecosystems. Few surviving mutants were equivalent (3--4\%); the rest fell in rules no property checks or escaped bound-only oracles. The model-based property was the most effective in both ecosystems.
+
+\noindent\textbf{Keywords:} Property-Based Testing. Mutation Testing. REST API. Java. Node.js.\par}
+
+\begin{center}\textbf{Resumo}\end{center}
+\vspace{-6pt}
+{\small\noindent\itshape
+Testes Baseados em Propriedades (PBT) verificam propriedades gerais sobre entradas geradas automaticamente, e o \textup{Mutation Testing} mede se uma suíte detecta defeitos artificiais. Este trabalho compara a efetividade de suítes PBT equivalentes aplicadas a duas implementações equivalentes de uma API REST de gestão de eventos e reservas de ingressos, uma em Java/Spring Boot (jqwik, PIT) e outra em Node.js/Express (fast-check, StrykerJS). Oito propriedades derivadas das regras de negócio foram executadas 30 vezes em cada ecossistema. O \textup{mutation score} foi de 50,0\% no Java e 52,2\% no Node.js; a diferença é estatisticamente significativa (Mann-Whitney, $p < 0{,}001$), mas pequena, e desaparece para mutantes do mesmo tipo (30,8\% contra 29,2\% nos mutantes de limite), porque as duas ferramentas geram conjuntos de operadores diferentes. A cobertura de linhas passou de 91\% nos dois ecossistemas. Poucos sobreviventes eram equivalentes (3\% a 4\%); os demais estavam em regras sem propriedade ou escaparam de oráculos que só verificam limites. A propriedade baseada em modelo foi a mais efetiva nos dois ecossistemas.
+
+\noindent\textbf{Palavras-chave:} Testes Baseados em Propriedades. \textup{Mutation Testing}. API REST. Java. Node.js.\par}

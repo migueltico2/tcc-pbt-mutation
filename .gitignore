@@ -1,0 +1,13 @@
+node_modules/
+target/
+reports/
+coverage/
+.stryker-tmp/
+*.exec
+.jqwik-database
+artigo/*.aux
+artigo/*.log
+artigo/*.bbl
+artigo/*.blg
+artigo/*.out
+__pycache__/

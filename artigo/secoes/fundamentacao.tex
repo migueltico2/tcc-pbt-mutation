@@ -1,0 +1,22 @@
+\section{Fundamentação Teórica}
+
+\subsection{Testes Baseados em Propriedades}
+
+Em PBT, o desenvolvedor escreve uma \textbf{propriedade}: uma afirmação que deve valer para todas as entradas de um domínio, como ``o total de uma reserva nunca é negativo''. Uma \textbf{invariante} é um caso particular, uma condição que toda operação deve preservar. A ferramenta usa \textbf{geradores} para produzir entradas aleatórias dentro do domínio e executa a propriedade para cada uma; quando encontra um contraexemplo, aplica \textbf{\textit{shrinking}}, reduzindo-o ao menor caso que ainda falha \citep{claessen2000quickcheck}.
+
+As bibliotecas atuais também injetam \textbf{casos de borda} (zero, mínimo, máximo, listas vazias) entre as entradas aleatórias. O jqwik, para a JVM, roda sobre a plataforma JUnit~5 \citep{jqwik2026}; o fast-check, para JavaScript e TypeScript, roda dentro de executores como o Jest \citep{fastcheck2026}. Ambos geram valores aleatórios com semente nova a cada execução, por padrão.
+
+A qualidade de uma suíte PBT depende do que cada propriedade verifica. Uma propriedade que só checa limites (``$0 \le \text{desconto} \le \text{subtotal}$'') aceita qualquer cálculo que respeite esses limites; uma que compara com um modelo de referência verifica valores exatos. Essa diferença de força é central na análise dos mutantes sobreviventes (Seção~5).
+
+\subsection{\textit{Mutation Testing}}
+
+O \MT{} aplica \textbf{operadores de mutação} ao programa, cada um gerando uma versão com uma pequena alteração: trocar \texttt{<} por \texttt{<=}, \texttt{+} por \texttt{-}, remover uma chamada, devolver \texttt{null}. A suíte é executada contra cada mutante \citep{jia2011mutation}. O mutante é \textbf{morto} quando algum teste falha, \textbf{sobrevivente} quando todos passam e \textbf{sem cobertura} quando nenhum teste executa o trecho alterado. Mutantes que estouram o tempo limite contam como detectados. O \ms{} é:
+
+\begin{equation}
+MS = \frac{K + T}{K + T + S + N} \times 100\%
+\label{eq:ms}
+\end{equation}
+
+\noindent em que $K$, $T$, $S$ e $N$ são os mutantes mortos, com \textit{timeout}, sobreviventes e sem cobertura. Mutantes que não compilam ou quebram a execução ficam de fora, como fazem PIT e StrykerJS.
+
+Um \textbf{mutante equivalente} altera o código sem alterar o comportamento observável e, por isso, nunca pode ser morto. Identificá-los exige análise manual \citep{papadakis2019mutation}. Além disso, o conjunto de operadores varia entre ferramentas: o PIT muta \textit{bytecode} Java \citep{coles2016pit} e seu conjunto padrão é mais restrito que o recomendado na literatura \citep{laurent2017pit}; o StrykerJS muta a árvore sintática de JavaScript e inclui operadores sem equivalente no PIT, como a troca de literais de texto \citep{stryker2026}. Comparar ecossistemas exige, portanto, comparar também por categorias de operadores comuns.

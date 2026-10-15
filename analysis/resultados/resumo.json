@@ -1,0 +1,262 @@
+{
+  "java": {
+    "execucoes": 30,
+    "gerados": {
+      "media": 126.0,
+      "dp": 0.0,
+      "mediana": 126.0,
+      "min": 126.0,
+      "max": 126.0
+    },
+    "mortos": {
+      "media": 62.266666666666666,
+      "dp": 0.7396799556440671,
+      "mediana": 62.0,
+      "min": 61.0,
+      "max": 63.0
+    },
+    "timeout": {
+      "media": 0.7333333333333333,
+      "dp": 0.7396799556440672,
+      "mediana": 1.0,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "sobreviventes": {
+      "media": 56.0,
+      "dp": 0.0,
+      "mediana": 56.0,
+      "min": 56.0,
+      "max": 56.0
+    },
+    "sem_cobertura": {
+      "media": 7.0,
+      "dp": 0.0,
+      "mediana": 7.0,
+      "min": 7.0,
+      "max": 7.0
+    },
+    "erros": {
+      "media": 0.0,
+      "dp": 0.0,
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "mutation_score": {
+      "media": 50.0,
+      "dp": 0.0,
+      "mediana": 50.0,
+      "min": 50.0,
+      "max": 50.0
+    },
+    "mutation_score_comuns": {
+      "media": 48.6486,
+      "dp": 0.0,
+      "mediana": 48.6486,
+      "min": 48.6486,
+      "max": 48.6486
+    },
+    "gerados_comuns": {
+      "media": 74.0,
+      "dp": 0.0,
+      "mediana": 74.0,
+      "min": 74.0,
+      "max": 74.0
+    },
+    "mutation_score_sem_acessores": {
+      "media": 48.42110000000001,
+      "dp": 7.226896453227138e-15,
+      "mediana": 48.4211,
+      "min": 48.4211,
+      "max": 48.4211
+    },
+    "cobertura_linhas": {
+      "media": 91.07000000000002,
+      "dp": 2.890758581290855e-14,
+      "mediana": 91.07,
+      "min": 91.07,
+      "max": 91.07
+    },
+    "cobertura_ramos": {
+      "media": 73.26000000000002,
+      "dp": 1.4453792906454277e-14,
+      "mediana": 73.26,
+      "min": 73.26,
+      "max": 73.26
+    },
+    "tempo_suite_s": {
+      "media": 2.3956666666666666,
+      "dp": 0.4079235335150478,
+      "mediana": 2.2809999999999997,
+      "min": 2.064,
+      "max": 4.178
+    },
+    "tempo_mutacao_s": {
+      "media": 34.03593333333333,
+      "dp": 4.6223433669837695,
+      "mediana": 33.669,
+      "min": 28.463,
+      "max": 53.898
+    }
+  },
+  "node": {
+    "execucoes": 30,
+    "gerados": {
+      "media": 260.0,
+      "dp": 0.0,
+      "mediana": 260.0,
+      "min": 260.0,
+      "max": 260.0
+    },
+    "mortos": {
+      "media": 135.16666666666666,
+      "dp": 0.6989318615762461,
+      "mediana": 135.0,
+      "min": 134.0,
+      "max": 136.0
+    },
+    "timeout": {
+      "media": 0.0,
+      "dp": 0.0,
+      "mediana": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "sobreviventes": {
+      "media": 100.83333333333333,
+      "dp": 0.698931861576246,
+      "mediana": 101.0,
+      "min": 100.0,
+      "max": 102.0
+    },
+    "sem_cobertura": {
+      "media": 23.0,
+      "dp": 0.0,
+      "mediana": 23.0,
+      "min": 23.0,
+      "max": 23.0
+    },
+    "erros": {
+      "media": 1.0,
+      "dp": 0.0,
+      "mediana": 1.0,
+      "min": 1.0,
+      "max": 1.0
+    },
+    "mutation_score": {
+      "media": 52.187949999999994,
+      "dp": 0.26985759175458995,
+      "mediana": 52.1236,
+      "min": 51.7375,
+      "max": 52.5097
+    },
+    "mutation_score_comuns": {
+      "media": 57.183099999999996,
+      "dp": 0.19101048896998374,
+      "mediana": 57.277,
+      "min": 56.8075,
+      "max": 57.277
+    },
+    "gerados_comuns": {
+      "media": 213.0,
+      "dp": 0.0,
+      "mediana": 213.0,
+      "min": 213.0,
+      "max": 213.0
+    },
+    "mutation_score_sem_acessores": {
+      "media": 52.81295000000001,
+      "dp": 0.29492046706960023,
+      "mediana": 52.7426,
+      "min": 52.3207,
+      "max": 53.1646
+    },
+    "cobertura_linhas": {
+      "media": 91.34999999999997,
+      "dp": 2.890758581290855e-14,
+      "mediana": 91.35,
+      "min": 91.35,
+      "max": 91.35
+    },
+    "cobertura_ramos": {
+      "media": 81.80999999999999,
+      "dp": 1.4453792906454277e-14,
+      "mediana": 81.81,
+      "min": 81.81,
+      "max": 81.81
+    },
+    "tempo_suite_s": {
+      "media": 1.2436666666666665,
+      "dp": 0.08819544649021965,
+      "mediana": 1.2295,
+      "min": 1.095,
+      "max": 1.493
+    },
+    "tempo_mutacao_s": {
+      "media": 28.88166666666667,
+      "dp": 2.1450560853263023,
+      "mediana": 27.948500000000003,
+      "min": 26.416,
+      "max": 33.513
+    }
+  },
+  "baseline_exemplos": {
+    "java": {
+      "gerados": 126,
+      "detectados": 116,
+      "validos": 126,
+      "mutation_score": 92.06349206349206,
+      "mutation_score_comuns": 94.5945945945946
+    },
+    "node": {
+      "gerados": 260,
+      "detectados": 246,
+      "validos": 260,
+      "mutation_score": 94.61538461538461,
+      "mutation_score_comuns": 96.71361502347418
+    }
+  },
+  "mutantes_limite": {
+    "node": {
+      "limite": {
+        "detectados_por_execucao": 3.8,
+        "total_por_execucao": 13.0,
+        "mutation_score": 29.23076923076923
+      },
+      "negacao": {
+        "detectados_por_execucao": 30.0,
+        "total_por_execucao": 34.0,
+        "mutation_score": 88.23529411764706
+      }
+    },
+    "java": {
+      "limite": {
+        "detectados_por_execucao": 4.0,
+        "total_por_execucao": 13.0,
+        "mutation_score": 30.76923076923077
+      }
+    }
+  },
+  "qui_quadrado_comuns": {
+    "tabela_detectado_nao": [
+      [
+        1080,
+        1140
+      ],
+      [
+        3654,
+        2736
+      ]
+    ],
+    "chi2": 48.13954200607671,
+    "p_valor": 3.969403970891472e-12
+  },
+  "mutantes_instaveis": {
+    "node": 4
+  },
+  "mutantes_por_execucao": {
+    "java": 126.0,
+    "node": 259.0
+  }
+}

@@ -1,0 +1,20 @@
+\section{Conclusão}
+
+Este trabalho perguntou se suítes de testes baseadas em propriedades, derivadas das mesmas regras de negócio, têm a mesma efetividade em implementações equivalentes de uma API REST em Java/Spring Boot e em Node.js/Express. A resposta é: quase. Em 30 execuções por ecossistema, as oito propriedades detectaram 50,0\% dos mutantes do PIT no Java e 52,2\% dos mutantes do StrykerJS no Node.js. A diferença é estatisticamente significativa, porque o Node.js ficou acima em todas as execuções, mas tem apenas 2,2 pontos percentuais, e desaparece quando se comparam mutantes do mesmo tipo: nos mutantes de limite, presentes nas duas ferramentas, os dois ecossistemas detectaram 30,8\% e 29,2\%.
+
+Os principais achados são:
+
+\begin{enumerate}
+  \item \textbf{A ferramenta pesa mais que a suíte.} O StrykerJS gerou o dobro de mutantes do PIT, com composição diferente: o PIT muta valores de retorno, o StrykerJS muta literais e nega condições. As diferenças de \ms{} entre ecossistemas, inclusive a maior (8,5 pontos nas categorias ``comuns''), são explicadas pela composição dos operadores. Comparar \ms{} entre ecossistemas só faz sentido no mesmo tipo de mutante.
+  \item \textbf{Cobertura alta não significou verificação.} As propriedades cobriram mais de 91\% das linhas do domínio nos dois ecossistemas e detectaram cerca de metade dos mutantes; no módulo de lotes, todos os mutantes foram cobertos e um terço foi detectado.
+  \item \textbf{Os sobreviventes têm duas causas, não uma.} Poucos são equivalentes (3\% a 4\%). Metade ou mais estão em regras que nenhuma propriedade verifica (validações de entrada, evento inativo, entidade inexistente), e o restante sobrevive porque as propriedades de limite aceitam valores errados, como um subtotal sempre igual a zero.
+  \item \textbf{Propriedades com modelo de referência foram as mais efetivas.} P8, que compara cada transição de status com um modelo, foi a que mais matou mutantes exclusivos, e o módulo que ela verifica teve o maior \ms{} nos dois ecossistemas. Propriedades de limite se sobrepuseram quase por completo.
+  \item \textbf{O resultado do PBT quase não variou entre execuções.} O \ms{} do Java foi idêntico nas 30 execuções; no Node.js, apenas 4 de 260 mutantes mudaram de resultado.
+  \item \textbf{Node.js foi mais rápido e mais simples de configurar.} A mutação levou 28,9~s contra 34,0~s, com o dobro de mutantes, e a configuração não teve armadilhas; no Java, foi preciso conhecer o \textit{plugin} JUnit~5 do PIT e o reaproveitamento de sementes do jqwik.
+\end{enumerate}
+
+Para quem testa APIs com PBT, a implicação prática é que propriedades de limite e de neutralidade, as mais comuns na prática \citep{corgozinho2023pbt}, protegem pouco os cálculos: é preciso combiná-las com oráculos de valor (um modelo de referência do preço, por exemplo) e cobrir também as regras de validação. Para quem compara ferramentas ou ecossistemas, a implicação é reportar o \ms{} por categoria de operador, e não apenas o total.
+
+Como contribuições, o trabalho entrega um experimento comparativo com teste estatístico, a classificação dos mutantes sobreviventes por regra e por propriedade e um repositório reprodutível com a especificação, as duas APIs, as suítes, os scripts e os dados brutos das 60 execuções.
+
+\textbf{Trabalhos futuros.} (i) Fortalecer as propriedades de preço com um modelo de referência e cobrir as regras de validação, medindo quanto o \ms{} sobe em cada ecossistema; (ii) repetir o experimento com o grupo \texttt{STRONGER} do PIT e com o conjunto de operadores do StrykerJS restrito aos equivalentes do PIT; (iii) variar o número de tentativas e o modo de casos de borda do jqwik, para entender a falta de variação observada; (iv) aplicar PBT com estado diretamente sobre a camada HTTP; e (v) replicar o estudo em outros domínios, em TypeScript e com propriedades geradas automaticamente.

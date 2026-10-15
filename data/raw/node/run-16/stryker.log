@@ -1,0 +1,1203 @@
+[32m09:22:09 (8628) INFO ProjectReader[39m Found 3 of 20 file(s) to be mutated.
+[32m09:22:10 (8628) INFO Instrumenter[39m Instrumented 3 source file(s) with 260 mutant(s)
+[32m09:22:10 (8628) INFO ConcurrencyTokenProvider[39m Creating 2 test runner process(es).
+[32m09:22:10 (8628) INFO BroadcastReporter[39m Detected that current console does not support the "progress" reporter, downgrading to "progress-append-only" reporter
+[32m09:22:10 (8628) INFO DryRunExecutor[39m Starting initial test run (jest test runner with "perTest" coverage analysis). This may take a while.
+[32m09:22:11 (8628) INFO DryRunExecutor[39m Initial test run succeeded. Ran 8 tests in 0 seconds (net 79 ms, overhead 751 ms).
+Mutation testing 48% (elapsed: <1m, remaining: <1m) 124/260 tested (48 survived, 0 timed out)
+Mutation testing 84% (elapsed: <1m, remaining: <1m) 231/260 tested (87 survived, 0 timed out)
+
+All tests
+  disponibilidade.prop.test.js
+    ✓ disponibilidade P5 disponibilidade nao negativa [line 41] (killed 47)
+    ✓ disponibilidade P6 reducao correta [line 55] (killed 50)
+    ✓ disponibilidade P7 cancelamento restaura [line 67] (killed 62)
+  preco.prop.test.js
+    ✓ preco P1 total nao negativo [line 9] (killed 75)
+    ✓ preco P2 desconto limitado [line 26] (killed 75)
+    ✓ preco P3 comutatividade do subtotal [line 40] (killed 49)
+    ✓ preco P4 cupom invalido neutro [line 56] (killed 81)
+  status.prop.test.js
+    ✓ status P8 transicoes validas [line 28] (killed 67)
+
+[Survived] BlockStatement
+src/domain/calculadoraPreco.js:10:29
+-     for (const item of itens) {
+-       soma += item.precoCentavos * item.quantidade;
+-     }
++     for (const item of itens) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:18:7
+-     if (cupom === null) {
++     if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:21:7
+-     if (hoje > cupom.validoAte) {
++     if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:21:7
+-     if (hoje > cupom.validoAte) {
++     if (hoje >= cupom.validoAte) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:24:7
+-     if (sub < cupom.minimoCentavos) {
++     if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:24:7
+-     if (sub < cupom.minimoCentavos) {
++     if (sub <= cupom.minimoCentavos) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:28:7
+-     if (cupom.tipo === TipoCupom.PERCENTUAL) {
++     if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:28:7
+-     if (cupom.tipo === TipoCupom.PERCENTUAL) {
++     if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:28:7
+-     if (cupom.tipo === TipoCupom.PERCENTUAL) {
++     if (cupom.tipo !== TipoCupom.PERCENTUAL) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ArithmeticOperator
+src/domain/calculadoraPreco.js:29:24
+-       bruto = Math.floor((sub * cupom.valor) / 100);
++       bruto = Math.floor(sub * cupom.valor * 100);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ArithmeticOperator
+src/domain/calculadoraPreco.js:29:25
+-       bruto = Math.floor((sub * cupom.valor) / 100);
++       bruto = Math.floor((sub / cupom.valor) / 100);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:33:7
+-     if (cupom.maximoDescontoCentavos !== null) {
++     if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ConditionalExpression
+src/domain/calculadoraPreco.js:33:7
+-     if (cupom.maximoDescontoCentavos !== null) {
++     if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:33:7
+-     if (cupom.maximoDescontoCentavos !== null) {
++     if (cupom.maximoDescontoCentavos === null) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] BlockStatement
+src/domain/calculadoraPreco.js:33:46
+-     if (cupom.maximoDescontoCentavos !== null) {
+-       bruto = Math.min(bruto, cupom.maximoDescontoCentavos);
+-     }
++     if (cupom.maximoDescontoCentavos !== null) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] MethodExpression
+src/domain/calculadoraPreco.js:36:10
+-     return Math.min(bruto, sub);
++     return Math.max(bruto, sub);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] MethodExpression
+src/domain/calculadoraPreco.js:34:13
+-       bruto = Math.min(bruto, cupom.maximoDescontoCentavos);
++       bruto = Math.max(bruto, cupom.maximoDescontoCentavos);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+
+
+[Survived] ObjectLiteral
+src/domain/modelos.js:5:36
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({});
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:45
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: "", CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:65
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: "", ENCERRADO: 'ENCERRADO' });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:89
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: "" });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:8:11
+-     CRIADA: 'CRIADA',
++     CRIADA: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:10:9
+-     PAGA: 'PAGA',
++     PAGA: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:9:15
+-     CONFIRMADA: 'CONFIRMADA',
++     CONFIRMADA: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:11:14
+-     CANCELADA: 'CANCELADA',
++     CANCELADA: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:12:13
+-     EXPIRADA: 'EXPIRADA',
++     EXPIRADA: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:15:47
+-   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: 'FIXO' });
++   const TipoCupom = Object.freeze({ PERCENTUAL: "", FIXO: 'FIXO' });
+Ran all tests for this mutant.
+
+[Survived] ObjectLiteral
+src/domain/modelos.js:15:33
+-   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: 'FIXO' });
++   const TipoCupom = Object.freeze({});
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:15:67
+-   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: 'FIXO' });
++   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: "" });
+Ran all tests for this mutant.
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:37:64
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
+-       }
++       if (nome == null || nome.trim() === '' || capacidade <= 0) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:38:35
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:47:31
+-       if (evento === undefined) {
+-         throw new RegraNegocioError('EVENTO_NAO_ENCONTRADO');
+-       }
++       if (evento === undefined) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:48:35
+-         throw new RegraNegocioError('EVENTO_NAO_ENCONTRADO');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:53:35
+-     alterarStatusEvento(id, status) {
+-       const evento = this.buscarEvento(id);
+-       evento.status = status;
+-       return evento;
+-     }
++     alterarStatusEvento(id, status) {}
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:64:52
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
+-       }
++       if (precoCentavos < 0 || quantidadeTotal <= 0) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:65:35
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:73:56
+-       if (ocupado + quantidadeTotal > evento.capacidade) {
+-         throw new RegraNegocioError('CAPACIDADE_EXCEDIDA');
+-       }
++       if (ocupado + quantidadeTotal > evento.capacidade) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:74:35
+-         throw new RegraNegocioError('CAPACIDADE_EXCEDIDA');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:83:29
+-       if (lote === undefined) {
+-         throw new RegraNegocioError('LOTE_NAO_ENCONTRADO');
+-       }
++       if (lote === undefined) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:84:35
+-         throw new RegraNegocioError('LOTE_NAO_ENCONTRADO');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:95:104
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
+-       }
++       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:96:35
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:116:32
+-       if (reserva === undefined) {
+-         throw new RegraNegocioError('RESERVA_NAO_ENCONTRADA');
+-       }
++       if (reserva === undefined) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:117:35
+-         throw new RegraNegocioError('RESERVA_NAO_ENCONTRADA');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:127:26
+-       if (quantidade <= 0) {
+-         throw new RegraNegocioError('QUANTIDADE_INVALIDA');
+-       }
++       if (quantidade <= 0) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:128:35
+-         throw new RegraNegocioError('QUANTIDADE_INVALIDA');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:131:45
+-       if (lote.eventoId !== reserva.eventoId) {
+-         throw new RegraNegocioError('LOTE_INVALIDO');
+-       }
++       if (lote.eventoId !== reserva.eventoId) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:132:35
+-         throw new RegraNegocioError('LOTE_INVALIDO');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:161:37
+-       if (reserva.itens.length === 0) {
+-         throw new RegraNegocioError('RESERVA_VAZIA');
+-       }
++       if (reserva.itens.length === 0) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:162:35
+-         throw new RegraNegocioError('RESERVA_VAZIA');
++         throw new RegraNegocioError("");
+
+[NoCoverage] BlockStatement
+src/domain/servicoIngressos.js:229:45
+-     if (evento.status !== StatusEvento.ATIVO) {
+-       throw new RegraNegocioError('EVENTO_INDISPONIVEL');
+-     }
++     if (evento.status !== StatusEvento.ATIVO) {}
+
+[NoCoverage] StringLiteral
+src/domain/servicoIngressos.js:230:33
+-       throw new RegraNegocioError('EVENTO_INDISPONIVEL');
++       throw new RegraNegocioError("");
+
+[Survived] UpdateOperator
+src/domain/servicoIngressos.js:29:5
+-       this.sequencia++;
++       this.sequencia--;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if ((nome == null || nome.trim() === '') && capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (false || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null && nome.trim() === '' || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (false || nome.trim() === '' || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:25
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || false || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] MethodExpression
+src/domain/servicoIngressos.js:37:25
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || nome === '' || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:37:41
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || nome.trim() === "Stryker was here!" || capacidade <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:47
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || nome.trim() === '' || false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:37:47
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || nome.trim() === '' || capacidade < 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:40:43
+-       const evento = new Evento(this.novoId('EVT'), nome, data, local, capacidade);
++       const evento = new Evento(this.novoId(""), nome, data, local, capacidade);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:47:9
+-       if (evento === undefined) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:64:9
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:64:9
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (precoCentavos < 0 && quantidadeTotal <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:64:9
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (false || quantidadeTotal <= 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:64:30
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (precoCentavos < 0 || false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:64:30
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (precoCentavos < 0 || quantidadeTotal < 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:68:45
+-       for (const lote of this.lotes.values()) {
+-         if (lote.eventoId === eventoId) {
+-           ocupado += lote.quantidadeTotal;
+-         }
+-       }
++       for (const lote of this.lotes.values()) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:69:11
+-         if (lote.eventoId === eventoId) {
++         if (true) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:69:11
+-         if (lote.eventoId === eventoId) {
++         if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:69:39
+-         if (lote.eventoId === eventoId) {
+-           ocupado += lote.quantidadeTotal;
+-         }
++         if (lote.eventoId === eventoId) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:69:11
+-         if (lote.eventoId === eventoId) {
++         if (lote.eventoId !== eventoId) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] AssignmentOperator
+src/domain/servicoIngressos.js:70:9
+-           ocupado += lote.quantidadeTotal;
++           ocupado -= lote.quantidadeTotal;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 4 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:73:9
+-       if (ocupado + quantidadeTotal > evento.capacidade) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:73:9
+-       if (ocupado + quantidadeTotal > evento.capacidade) {
++       if (ocupado + quantidadeTotal >= evento.capacidade) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ArithmeticOperator
+src/domain/servicoIngressos.js:73:9
+-       if (ocupado + quantidadeTotal > evento.capacidade) {
++       if (ocupado - quantidadeTotal > evento.capacidade) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:76:39
+-       const lote = new Lote(this.novoId('LOT'), eventoId, nome, precoCentavos, quantidadeTotal);
++       const lote = new Lote(this.novoId(""), eventoId, nome, precoCentavos, quantidadeTotal);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:83:9
+-       if (lote === undefined) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:92:90
+-     cadastrarCupom(codigo, tipo, valor, minimoCentavos, maximoDescontoCentavos, validoAte) {
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
+-       const maximoValido = maximoDescontoCentavos === null || maximoDescontoCentavos > 0;
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+-         throw new RegraNegocioError('DADOS_INVALIDOS');
+-       }
+-       const cupom = new Cupom(codigo, tipo, valor, minimoCentavos, maximoDescontoCentavos, validoAte);
+-       this.cupons.set(codigo, cupom);
+-       return cupom;
+-     }
++     cadastrarCupom(codigo, tipo, valor, minimoCentavos, maximoDescontoCentavos, validoAte) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:25
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = false ? valor >= 1 && valor <= 100 : valor > 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:57
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? true : valor > 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:93:57
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 || valor <= 100 : valor > 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:57
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? true && valor <= 100 : valor > 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:71
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && true : valor > 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:86
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : true;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:93:86
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor >= 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:94:26
+-       const maximoValido = maximoDescontoCentavos === null || maximoDescontoCentavos > 0;
++       const maximoValido = true;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:94:61
+-       const maximoValido = maximoDescontoCentavos === null || maximoDescontoCentavos > 0;
++       const maximoValido = maximoDescontoCentavos === null || maximoDescontoCentavos >= 0;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if ((codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0) && !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if ((codigo == null || codigo.trim() === '' || !valorValido) && minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if ((codigo == null || codigo.trim() === '') && !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] LogicalOperator
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null && codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:27
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null || false || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] MethodExpression
+src/domain/servicoIngressos.js:95:27
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null || codigo === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:95:45
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null || codigo.trim() === "Stryker was here!" || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:67
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null || codigo.trim() === '' || !valorValido || false || !maximoValido) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] CallExpression
+src/domain/servicoIngressos.js:99:5
+-       this.cupons.set(codigo, cupom);
++       ;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] CallExpression
+src/domain/servicoIngressos.js:108:5
+-       exigirEventoAtivo(evento);
++       ;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:109:45
+-       const reserva = new Reserva(this.novoId('RES'), eventoId);
++       const reserva = new Reserva(this.novoId(""), eventoId);
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:116:9
+-       if (reserva === undefined) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] CallExpression
+src/domain/servicoIngressos.js:126:5
+-       exigirEventoAtivo(this.buscarEvento(reserva.eventoId));
++       ;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:127:9
+-       if (quantidade <= 0) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:127:9
+-       if (quantidade <= 0) {
++       if (quantidade < 0) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:131:9
+-       if (lote.eventoId !== reserva.eventoId) {
++       if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:139:35
+-     aplicarCupom(reservaId, codigo) {
+-       const reserva = this.buscarReserva(reservaId);
+-       exigirStatus(reserva, StatusReserva.CRIADA);
+-       reserva.codigoCupom = codigo;
+-       return reserva;
+-     }
++     aplicarCupom(reservaId, codigo) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] CallExpression
+src/domain/servicoIngressos.js:141:5
+-       exigirStatus(reserva, StatusReserva.CRIADA);
++       ;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P4 cupom invalido neutro
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:150:39
+-       for (const item of reserva.itens) {
+-         itens.push({ precoCentavos: this.buscarLote(item.loteId).precoCentavos, quantidade: item.quantidade });
+-       }
++       for (const item of reserva.itens) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:153:19
+-       const cupom = reserva.codigoCupom === null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
++       const cupom = true ? null : this.cupons.get(reserva.codigoCupom) ?? null;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:153:19
+-       const cupom = reserva.codigoCupom === null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
++       const cupom = false ? null : this.cupons.get(reserva.codigoCupom) ?? null;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:153:19
+-       const cupom = reserva.codigoCupom === null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
++       const cupom = reserva.codigoCupom !== null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 1 more test!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:161:9
+-       if (reserva.itens.length === 0) {
++       if (false) {
+Tests ran:
+    status P8 transicoes validas
+    disponibilidade P5 disponibilidade nao negativa
+    disponibilidade P6 reducao correta
+  and 1 more test!
+
+
+[Survived] CallExpression
+src/domain/servicoIngressos.js:164:5
+-       exigirEventoAtivo(this.buscarEvento(reserva.eventoId));
++       ;
+Tests ran:
+    status P8 transicoes validas
+    disponibilidade P5 disponibilidade nao negativa
+    disponibilidade P6 reducao correta
+  and 1 more test!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:167:11
+-         if (this.buscarLote(loteId).quantidadeDisponivel < quantidade) {
++         if (this.buscarLote(loteId).quantidadeDisponivel <= quantidade) {
+Tests ran:
+    status P8 transicoes validas
+    disponibilidade P5 disponibilidade nao negativa
+    disponibilidade P6 reducao correta
+  and 1 more test!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:168:37
+-           throw new RegraNegocioError('DISPONIBILIDADE_INSUFICIENTE');
++           throw new RegraNegocioError("");
+Tests ran:
+    disponibilidade P5 disponibilidade nao negativa
+    disponibilidade P6 reducao correta
+    disponibilidade P7 cancelamento restaura
+
+
+[Survived] BlockStatement
+src/domain/servicoIngressos.js:228:36
+-   function exigirEventoAtivo(evento) {
+-     if (evento.status !== StatusEvento.ATIVO) {
+-       throw new RegraNegocioError('EVENTO_INDISPONIVEL');
+-     }
+-   }
++   function exigirEventoAtivo(evento) {}
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:229:7
+-     if (evento.status !== StatusEvento.ATIVO) {
++     if (false) {
+Tests ran:
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+    preco P3 comutatividade do subtotal
+  and 5 more tests!
+
+
+Ran 4.57 tests per mutant on average.
+---------------------|------------------|----------|-----------|------------|----------|----------|
+                     | % Mutation score |          |           |            |          |          |
+File                 |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+All files            |  52.12 |   57.20 |      135 |         0 |        101 |       23 |        1 |
+ calculadoraPreco.js |  52.78 |   52.78 |       19 |         0 |         17 |        0 |        0 |
+ modelos.js          |  47.83 |   47.83 |       11 |         0 |         12 |        0 |        1 |
+ servicoIngressos.js |  52.50 |   59.32 |      105 |         0 |         72 |       23 |        0 |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m09:22:36 (8628) INFO JsonReporter[39m Your report can be found at: file:///home/claude/tcc-pbt-mutation/node-api/reports/mutation/mutation.json
+[32m09:22:36 (8628) INFO MutationTestExecutor[39m Done in 26 seconds.
