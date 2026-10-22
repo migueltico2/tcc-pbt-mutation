@@ -1,153 +1,100 @@
-\section{Resultados}
+\section{Resultados e Discussão}
 
 \subsection{Sumarização dos resultados}
 
-Foram realizadas 60 execuções completas (30 por ecossistema), que somam 11\,580 avaliações de mutantes sobre 386 mutantes distintos: 126 gerados pelo PIT no domínio Java e 260 gerados pelo StrykerJS no domínio Node.js. A Tabela~\ref{tab:resumo} reúne os números principais. O resultado central é que as duas suítes de propriedades detectam cerca de metade dos mutantes, com \ms{} médio de 50,0\% no Java e 52,2\% no Node.js, embora cubram mais de 91\% das linhas do domínio.
+Foram realizadas \totalExecucoes{} execuções completas, com \totalAvaliacoes{} avaliações de mutantes (excluídos os erros de execução). Por execução, o PIT gerou \gerJavaFracaCem{} mutantes com seu conjunto padrão e o StrykerJS, \gerNodeFracaCem; no recorte harmonizado, os dois conjuntos ficaram quase do mesmo tamanho (\gerhJavaFracaCem{} e \gerhNodeFracaCem), com a mesma distribuição por classe. A Tabela~\ref{tab:resumo} resume cada configuração, e a Figura~\ref{fig:tentativas} mostra o \ms{} em função do número de tentativas.
 
 \begin{table}[!htbp]
 \centering
-\caption{Resumo das 30 execuções por ecossistema (médias por execução; desvio-padrão entre parênteses quando diferente de zero).}
+\caption{\textit{Mutation score} (mediana e intervalo interquartil das 30 execuções) com operadores padrão e harmonizados, cobertura de linhas e ramos e mutantes instáveis (M6), por configuração.}
 \label{tab:resumo}
-\small
-\begin{tabularx}{\textwidth}{@{}Y r r@{}}
+\small\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l r r c r c r@{}}
 \toprule
-Métrica & Java (jqwik + PIT) & Node.js (fast-check + StrykerJS) \\
+ & & & \multicolumn{2}{c}{\textit{Mutation score} padrão (\%)} & Harmon. & Cobertura (\%) & \\
+Ecossistema & Suíte & Tent. & Mediana & IQR & (\%) & linhas / ramos & Instáveis \\
 \midrule
-Linhas de código do domínio / das propriedades e geradores & 378 / 336 & 284 / 292 \\
-Propriedades implementadas & 8 & 8 \\
-Mutantes gerados por execução & 126 & 260 (1 com erro de execução) \\
-Detectados (mortos + \textit{timeout}) & 63,0 & 135,2 (0,7) \\
-Sobreviventes & 56,0 & 100,8 (0,7) \\
-Sem cobertura & 7 & 23 \\
-\textbf{\textit{Mutation score}} (\%) & \textbf{50,00} (0,00) & \textbf{52,19} (0,27) \\
-\textit{Mutation score} nas categorias comuns (\%) & 48,65 (0,00) & 57,18 (0,19) \\
-\textit{Mutation score} sem construtores e acessores (\%) & 48,42 (0,00) & 52,81 (0,29) \\
-Cobertura de linhas / de ramos do domínio (\%) & 91,07 / 73,26 & 91,35 / 81,81 \\
-Tempo da suíte de propriedades (s) & 2,40 (0,41) & 1,24 (0,09) \\
-Tempo da análise de mutação (s) & 34,04 (4,62) & 28,88 (2,15) \\
-Mutantes com resultado diferente entre execuções & 0 & 4 \\
+Java & fraca & 10 & \msJavaFracaDez & \msqJavaFracaDez & \mshJavaFracaDez & \coblJavaFracaDez{} / \cobrJavaFracaDez & \instJavaFracaDez \\
+ &  & 100 & \msJavaFracaCem & \msqJavaFracaCem & \mshJavaFracaCem & \coblJavaFracaCem{} / \cobrJavaFracaCem & \instJavaFracaCem \\
+ &  & 1000 & \msJavaFracaMil & \msqJavaFracaMil & \mshJavaFracaMil & \coblJavaFracaMil{} / \cobrJavaFracaMil & \instJavaFracaMil \\
+ & forte & 10 & \msJavaForteDez & \msqJavaForteDez & \mshJavaForteDez & \coblJavaForteDez{} / \cobrJavaForteDez & \instJavaForteDez \\
+ &  & 100 & \msJavaForteCem & \msqJavaForteCem & \mshJavaForteCem & \coblJavaForteCem{} / \cobrJavaForteCem & \instJavaForteCem \\
+ &  & 1000 & \msJavaForteMil & \msqJavaForteMil & \mshJavaForteMil & \coblJavaForteMil{} / \cobrJavaForteMil & \instJavaForteMil \\
 \midrule
-Linha de base: \textit{mutation score} só com os 11 cenários de exemplo (\%) & 92,06 & 94,62 \\
+Node.js & fraca & 10 & \msNodeFracaDez & \msqNodeFracaDez & \mshNodeFracaDez & \coblNodeFracaDez{} / \cobrNodeFracaDez & \instNodeFracaDez \\
+ &  & 100 & \msNodeFracaCem & \msqNodeFracaCem & \mshNodeFracaCem & \coblNodeFracaCem{} / \cobrNodeFracaCem & \instNodeFracaCem \\
+ &  & 1000 & \msNodeFracaMil & \msqNodeFracaMil & \mshNodeFracaMil & \coblNodeFracaMil{} / \cobrNodeFracaMil & \instNodeFracaMil \\
+ & forte & 10 & \msNodeForteDez & \msqNodeForteDez & \mshNodeForteDez & \coblNodeForteDez{} / \cobrNodeForteDez & \instNodeForteDez \\
+ &  & 100 & \msNodeForteCem & \msqNodeForteCem & \mshNodeForteCem & \coblNodeForteCem{} / \cobrNodeForteCem & \instNodeForteCem \\
+ &  & 1000 & \msNodeForteMil & \msqNodeForteMil & \mshNodeForteMil & \coblNodeForteMil{} / \cobrNodeForteMil & \instNodeForteMil \\
+\midrule
+Java & \multicolumn{2}{l}{11 exemplos} & \baseJava & --- & \basehJava & --- & --- \\
+Node.js & \multicolumn{2}{l}{11 exemplos} & \baseNode & --- & \basehNode & --- & --- \\
 \bottomrule
-\end{tabularx}
+\end{tabular*}
 \end{table}
 
-Três números chamam atenção. Primeiro, o StrykerJS gerou o dobro de mutantes do PIT para um domínio menor em linhas de código, o que já indica que as ferramentas ``enxergam'' o código de formas diferentes. Segundo, o \ms{} do Java foi idêntico nas 30 execuções, e no Node.js apenas 4 dos 260 mutantes mudaram de resultado entre execuções: a aleatoriedade do PBT quase não afetou o resultado. Terceiro, os 11 cenários de exemplo, escritos para verificar a equivalência entre as implementações e usados aqui apenas como linha de base, mataram mais de 92\% dos mutantes nos dois ecossistemas, contra cerca de 50\% das propriedades. A Seção~5.3 explica essa diferença.
-
-\textbf{Desafios e decisões na coleta.} (i) O ambiente não acessava o Maven Central, o que exigiu compilar jqwik e PIT a partir do código-fonte (Seção~4.7). (ii) Por padrão, o jqwik reexecuta a semente que falhou na execução anterior; sob o PIT, isso faria um mutante influenciar o seguinte, e essa opção foi desligada. (iii) O StrykerJS para no primeiro teste que mata um mutante; para atribuir mortes a propriedades da mesma forma que o PIT, foi usado \texttt{disableBail}. (iv) Na análise, verificou-se que o grupo \texttt{DEFAULTS} do PIT 1.18 não inclui mais o operador que nega condições (\texttt{NegateConditionals}), substituído pela remoção de condicionais; isso muda a composição da categoria ``Relacional'' e é tratado na Seção~5.3.
-
-\subsection{Visualização dos resultados}
-
-A Figura~\ref{fig:boxplot} apresenta a distribuição do \ms{} nas 30 execuções de cada ecossistema, em três recortes: todos os mutantes, apenas as categorias de operadores comuns às duas ferramentas e todos exceto os mutantes de construtores e métodos de acesso. Em todos os recortes, as 30 execuções do Java coincidem em um único valor, e as do Node.js variam menos de um ponto percentual, sempre acima do Java. A distância é pequena no recorte completo (2,2 pontos) e maior nas categorias comuns (8,5 pontos).
-
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{figuras/fig5_1_boxplot_mutation_score.pdf}
-\caption{\textit{Mutation score} por execução (30 por ecossistema), em três recortes de mutantes. Cada ponto é uma execução.}
-\label{fig:boxplot}
+\includegraphics[width=\textwidth]{figuras/fig5_1_score_tentativas.pdf}
+\caption{\textit{Mutation score} por número de tentativas, suíte e ecossistema: mediana (marcador) e intervalo interquartil (barra vertical) das 30 execuções. Linhas cheias: suíte forte; tracejadas: suíte fraca.}
+\label{fig:tentativas}
 \end{figure}
 
-A Figura~\ref{fig:modulos} mostra o \ms{} por módulo da aplicação. Os dois ecossistemas têm o mesmo padrão: os módulos de cadastro (Eventos e Lotes) ficam entre 33\% e 40\%, e os módulos de Disponibilidade e Status, verificados por P5--P8, ficam acima de 60\%. O módulo Status chega a 100\% no Node.js e a 67\% no Java; a diferença vem de quatro mutantes do PIT que trocam o valor de retorno dos métodos de transição por \texttt{null}, um tipo de mutação que o StrykerJS não aplica. O módulo Lotes tem exatamente o mesmo \ms{} nos dois lados (33,3\%).
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{figuras/fig5_2_score_por_modulo.pdf}
-\caption{\textit{Mutation score} por módulo da aplicação de referência (todas as execuções agregadas).}
-\label{fig:modulos}
-\end{figure}
-
-A Figura~\ref{fig:cobertura} compara, para cada módulo, a proporção de mutantes cobertos pela suíte (círculo vazado) com a proporção detectada (círculo cheio). A distância entre os dois é o que a cobertura sozinha não revela. No Java, todos os módulos de regra exceto Eventos (80\%) têm 100\% dos mutantes cobertos, mas a detecção varia de 33\% (Lotes, distância de 67 pontos) a 67\% (Status). No Node.js, o padrão se repete, com a exceção do módulo Status, em que cobertura e detecção coincidem.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{figuras/fig5_3_cobertura_vs_score.pdf}
-\caption{Mutantes cobertos pela suíte $\times$ \textit{mutation score}, por módulo. O rótulo à direita é a diferença em pontos percentuais.}
-\label{fig:cobertura}
-\end{figure}
-
-A Figura~\ref{fig:categorias} decompõe os mutantes de cada execução por categoria de operador e por resultado. A composição é muito diferente: no Java, 41\% dos mutantes são de ``valor de retorno'', categoria inexistente no StrykerJS; no Node.js, 16\% são literais (principalmente textos de códigos de erro e nomes de status) e a categoria ``Relacional'' tem 47 mutantes por execução, contra 13 no Java. Os mutantes sem cobertura do Node.js (em cinza) estão quase todos dentro de ramos que lançam erros de validação, nunca executados pelas propriedades.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{figuras/fig5_4_categorias_status.pdf}
-\caption{Mutantes por execução, por categoria de operador e resultado. Categorias marcadas com * existem nas duas ferramentas.}
-\label{fig:categorias}
-\end{figure}
-
-A Figura~\ref{fig:propriedades} mostra, para cada propriedade, a porcentagem dos mutantes detectados que ela mata (barra clara) e a porcentagem que só ela mata (barra escura). P4 (cupom inválido neutro) é a que mais mata nos dois ecossistemas, cerca de 56\% a 59\% dos detectados, mas quase sempre junto com P1 e P2. P8, a única propriedade que compara o sistema com um modelo de referência, é a que mais contribui com mortes exclusivas: 19\% dos detectados no Java e 11\% no Node.js. P1 não tem nenhuma morte exclusiva no Java: tudo o que ela detecta, P2 também detecta.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{figuras/fig5_5_mortos_por_propriedade.pdf}
-\caption{Porcentagem dos mutantes detectados que cada propriedade mata (clara) e que só ela mata (escura), média por execução.}
-\label{fig:propriedades}
-\end{figure}
-
-Por fim, a Figura~\ref{fig:tempo} apresenta o tempo da análise de mutação. O PIT levou mais tempo (mediana de 33,7~s) que o StrykerJS (27,9~s), apesar de processar menos da metade dos mutantes: 0,27~s por mutante contra 0,11~s. O ponto isolado do Java (53,9~s) coincide com um período de atividade concorrente na máquina.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.55\textwidth]{figuras/fig5_6_tempo_mutacao.pdf}
-\caption{Tempo da análise de mutação por execução.}
-\label{fig:tempo}
-\end{figure}
+A configuração da versão anterior deste trabalho (suíte fraca, 100 tentativas) foi reproduzida: \msJavaFracaCem\% no Java e \msNodeFracaCem\% no Node.js. As figuras complementares (por classe de mutação, por módulo, por propriedade e de tempo) estão no Apêndice~\ref{ap:figuras}.
 
 \subsection{Discussão dos resultados}
 
-A discussão segue as questões de pesquisa da Tabela~\ref{tab:gqm}.
+\textbf{QP1 -- Quais regras puderam ser expressas como propriedades equivalentes, e com que oráculo?} Todas. As 17 propriedades foram implementadas nos dois ecossistemas com o mesmo enunciado, as mesmas faixas de geração e o mesmo número de tentativas (M2 = 17/17). A suíte fraca verifica 10 das 20 regras (M1 = 50\%) e nenhuma de suas propriedades confere o valor do preço; a suíte forte verifica as 20 (M1 = 100\%). O tamanho foi equivalente: 336 linhas no Java e 293 no Node.js para a suíte fraca, mais 513 e 446 para as propriedades novas. O jqwik exigiu tipos explícitos para cada dado gerado, enquanto o fast-check compõe geradores em linha; nenhuma propriedade precisou ser adaptada.
 
-\textbf{QP1 -- Quais regras puderam ser expressas como propriedades equivalentes?} As oito propriedades previstas foram implementadas nos dois ecossistemas com o mesmo enunciado, as mesmas faixas de geração e o mesmo número de tentativas (M2 = 8/8). Juntas, elas verificam 10 das 20 regras da especificação (M1 = 50\%): as de preço, disponibilidade e status. As regras de validação de entrada (R1, R3, R4, R7, R9), de evento inativo (R2), de reserva vazia (R14), de aplicação de cupom (R10) e de entidade inexistente (R20) não têm propriedade correspondente, porque as propriedades do TCC~I foram escolhidas a partir dos padrões mais frequentes na literatura \citep{corgozinho2023pbt}, que são de limite, relação e transição. A escrita foi equivalente em tamanho (336 e 292 linhas). A diferença de estilo é que o jqwik declara entradas por anotações (\texttt{@ForAll}, \texttt{@IntRange}) e combina geradores com \texttt{Combinators}, exigindo tipos explícitos, enquanto o fast-check compõe geradores em linha com \texttt{fc.record} e \texttt{fc.property}. Nenhuma propriedade precisou ser adaptada para caber em uma das bibliotecas.
+\textbf{QP2 -- Qual o \ms{} de cada suíte, e quanto a força do oráculo o altera?} Com 100 tentativas, a suíte fraca detectou \msJavaFracaCem\% (Java) e \msNodeFracaCem\% (Node.js) dos mutantes, e a suíte forte, \msJavaForteCem\% e \msNodeForteCem\%. A suíte forte foi superior em todas as comparações entre execuções ($\hat{A}_{12} = 1$, $p < 0{,}001$ em todas as combinações), com ganho de 23 a 44 pontos. Os 11 cenários de exemplo detectaram \baseJava\% e \baseNode\%, muito acima da suíte fraca, porque conferem valores exatos, inclusive o objeto devolvido por cada operação. Quando as propriedades também conferem valores exatos, elas alcançam os exemplos: no recorte harmonizado, a suíte forte com 1000 tentativas chegou a \mshJavaForteMil\% e \mshNodeForteMil\%, contra \basehJava\% e \basehNode\% dos exemplos.
 
-\textbf{QP2 -- Qual o \textit{mutation score} de cada suíte?} 50,0\% no Java e 52,2\% no Node.js. Os dois valores são baixos quando comparados à linha de base de exemplos (92,1\% e 94,6\%). Isso não significa que exemplos são melhores que propriedades em geral, mas mostra o que cada suíte verifica: os cenários de exemplo foram escritos para conferir valores exatos e códigos de erro de todas as 20 regras, enquanto as propriedades verificam limites e relações de metade delas. O resultado é coerente com \citet{ravi2025pbt}, que encontraram grande variação de efetividade entre categorias de propriedades.
+\textbf{QP3 -- O número de tentativas altera o \ms{}?} Só com propriedades fortes. Na suíte forte, ir de 10 para 100 tentativas elevou o \ms{} de \msJavaForteDez\% para \msJavaForteCem\% no Java e de \msNodeForteDez\% para \msNodeForteCem\% no Node.js; de 100 para 1000, o ganho foi menor (\msJavaForteMil\% e \msNodeForteMil\%). Na suíte fraca, a variação ficou abaixo de 3 pontos, e no Java as 60 execuções com 100 e 1000 tentativas deram o mesmo resultado. Os mutantes que dependem de um valor exato de limite alternam entre detectados e sobreviventes quando há poucas tentativas: na suíte forte, \instJavaForteDez{} (Java) e \instNodeForteDez{} (Node.js) mudaram de resultado entre execuções com 10 tentativas, contra \instJavaForteMil{} e \instNodeForteMil{} com 1000. Mais entradas só ajudam quando o oráculo reconhece o defeito que elas revelam, o que complementa a observação de \citet{ravi2025pbt} de que a maioria das mutações aparece nas primeiras entradas.
 
-\textbf{QP3 -- A diferença é estatisticamente significativa, e de que tamanho?} Sim, mas pequena em termos práticos. Em todas as 30 execuções o Node.js ficou acima do Java, o que dá $\hat{A}_{12} = 0$ e $p < 0{,}001$ (Seção~5.4). A diferença, porém, é de 2,2 pontos percentuais. Ela é ``grande'' no sentido estatístico porque as amostras quase não variam, não porque as suítes sejam muito diferentes. A ausência de variação também é um resultado: com 100 tentativas, as duas bibliotecas chegaram sempre aos mesmos mutantes, e o jqwik, que avisou que os casos de borda excediam as tentativas, gerou entradas praticamente fixas.
-
-\textbf{QP4 -- A diferença se mantém nas categorias comuns?} Ela aumenta para 8,5 pontos (48,6\% contra 57,2\%), mas, contada por mutante distinto (74 no Java e 213 no Node.js), não é estatisticamente significativa (qui-quadrado, $\chi^2 = 1{,}32$, $p = 0{,}25$). A explicação está na composição das categorias, não nas suítes. No PIT 1.18, a categoria ``Relacional'' contém apenas mutantes de limite (\texttt{<} $\leftrightarrow$ \texttt{<=}), que são difíceis de matar; no StrykerJS ela também inclui negações (\texttt{===} $\to$ \texttt{!==}), que qualquer propriedade que exercite o trecho mata. Comparando apenas os mutantes de limite, que existem nas duas ferramentas, os números se igualam: 13 mutantes por execução em cada lado, com 30,8\% detectados no Java e 29,2\% no Node.js. Quando o operador é de fato o mesmo, as duas suítes detectam a mesma coisa. Isso confirma, para o par PIT/StrykerJS, o que \citet{kintis2018tools} e \citet{monteiro2022tools} observaram entre ferramentas Java: o conjunto de operadores muda o \ms{} mais do que a suíte avaliada.
-
-\textbf{QP5 -- Os mutantes cobertos são também detectados?} Não. A cobertura de linhas ficou acima de 91\% nos dois ecossistemas e a de ramos em 73\% (Java) e 82\% (Node.js), enquanto o \ms{} ficou em torno de 50\%: cerca de 40 pontos de distância. No nível de módulo (Figura~\ref{fig:cobertura}), o módulo Lotes tem todos os mutantes cobertos e apenas um terço detectado nos dois ecossistemas. A cobertura indicou corretamente onde a suíte não chega (os ramos de validação), mas não indicou que metade do código coberto não é verificado.
-
-\textbf{QP6 -- Onde se concentram os sobreviventes, e por quê?} A Tabela~\ref{tab:sobreviventes} classifica todos os mutantes não detectados em ao menos uma execução. Os equivalentes são raros (3\% a 4\%): um contador de identificadores decrescente, prefixos de identificador vazios e um atalho para cupom nulo, que não mudam o comportamento observável. O restante se divide em duas causas. A primeira é a \textbf{regra sem propriedade}: 51\% dos não detectados no Java e 76\% no Node.js estão em regras que nenhuma das oito propriedades verifica, principalmente validações de cupom (R9), de lote e capacidade (R3, R4) e de evento (R1, R2). O Node.js tem mais casos dessa classe porque o StrykerJS gera vários mutantes por condição composta e muta os textos dos códigos de erro. A segunda é a \textbf{propriedade fraca}: 46\% no Java e 20\% no Node.js. Aqui a regra é exercitada, mas o oráculo não percebe a mudança. O caso mais claro é o preço: um mutante que faz o subtotal valer sempre zero sobrevive a P1--P4 nos dois ecossistemas, porque total~$=0$ é não negativo, desconto~$=0$ está entre 0 e o subtotal, a ordem dos itens não muda zero e cupom inválido não altera zero. Nenhuma das quatro propriedades de preço fixa o valor esperado do subtotal ou do desconto.
+\textbf{QP4 -- O \ms{} difere entre os ecossistemas?} Depende dos operadores (Tabela~\ref{tab:testes}). Com os operadores padrão, $H_0$ foi rejeitada em todas as configurações, sempre com o Node.js acima ($\hat{A}_{12} \le 0{,}01$). A diferença vem da ferramenta: o PIT gera mutantes de valor de retorno (por exemplo, devolver \texttt{null} no lugar da reserva atualizada) que as propriedades não observam, porque consultam o estado depois da operação, e o StrykerJS não tem esse operador. No recorte harmonizado, a relação se inverte na suíte fraca (\mshJavaFracaCem\% no Java contra \mshNodeFracaCem\% no Node.js) e, na suíte forte com 1000 tentativas, $H_0$ não foi rejeitada (\mshJavaForteMil\% nos dois, \pEcoForteMilHarm). Com o mutante distinto como unidade e 100 tentativas, nenhuma diferença harmonizada foi significativa (suíte fraca: $\chi^2 = $ \chiFraca, \pchiFraca; forte: $\chi^2 = $ \chiForte, \pchiForte). A inversão na suíte fraca tem uma causa concreta: as duas ferramentas geram o mesmo número de mutantes de condição forçada por regra, mas, numa validação composta como ``nome nulo ou vazio ou capacidade $\le 0$'', o PIT gera pares simétricos (metade força o erro, metade desliga a verificação), enquanto o StrykerJS gera uma versão que força o erro e cinco que desligam partes da verificação. A suíte fraca nunca envia dados inválidos e só percebe as versões que forçam o erro. Isso confirma, para o par PIT/StrykerJS, o que \citet{kintis2018tools} e \citet{monteiro2022tools} observaram entre ferramentas Java: o conjunto de operadores muda o \ms{} mais do que a suíte avaliada.
 
 \begin{table}[!htbp]
 \centering
-\caption{Classificação manual dos mutantes não detectados em ao menos uma execução.}
-\label{tab:sobreviventes}
-\small
-\begin{tabularx}{\textwidth}{@{}l Y r r@{}}
-\toprule
-Classe & Principais causas & Java & Node.js \\
-\midrule
-Equivalente & Identificadores ainda únicos; busca de cupom nulo & 2 (3\%) & 5 (4\%) \\
-Propriedade fraca & Desconto e subtotal só verificados por limites; retorno dos métodos não observado; recusa de confirmação sem verificar a condição & 29 (46\%) & 25 (20\%) \\
-Regra sem propriedade & Validações de cupom, lote, evento e item; evento inativo; entidade inexistente; nomes de status & 32 (51\%) & 97 (76\%) \\
-\midrule
-Total & & 63 & 127 \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-A comparação entre propriedades reforça essa leitura. P8, que compara cada operação com um modelo da tabela de transições, é a que mais mata mutantes que nenhuma outra mata, e o módulo que ela verifica (Status) tem o maior \ms{} nos dois ecossistemas. As propriedades de limite (P1, P2, P5) se sobrepõem quase por completo. Na terminologia de \citet{bartocci2023pbmt}, os mutantes de preço violam uma regra que P1--P4 deveriam proteger, mas não violam nenhuma das propriedades como foram escritas.
-
-\textbf{QP7 -- Qual ecossistema exige mais tempo e esforço?} O Node.js foi mais rápido nas duas medidas: a suíte rodou em 1,2~s contra 2,4~s (diferença dominada pela inicialização da JVM) e a mutação em 28,9~s contra 34,0~s, mesmo com o dobro de mutantes. Uma explicação provável para o custo por mutante maior é a inicialização das JVMs auxiliares que o PIT usa para executar os mutantes isolados do processo principal. No esforço de configuração (M14, registrado em \texttt{docs/diario.md}), os dois caminhos padrão são parecidos em tamanho: dois arquivos de configuração e quatro artefatos no Java, quatro arquivos e quatro pacotes no Node.js. A diferença está nos detalhes não óbvios: no Java foi preciso declarar o \textit{plugin} JUnit~5 do PIT (sem ele nenhum teste é encontrado) e desligar o reaproveitamento de sementes do jqwik; no Node.js não houve erro até a primeira execução, e o único ajuste foi metodológico (\texttt{disableBail}). Esse resultado é coerente com as barreiras de configuração relatadas por \citet{sanchez2024mutation}.
-
-\subsection{Testes estatísticos}
-
-A Tabela~\ref{tab:testes} apresenta os testes de hipótese. Para o \ms{}, nos três recortes, rejeita-se $H_{0,1}$: o Node.js teve \ms{} maior em todas as comparações entre execuções ($\hat{A}_{12} = 0$, efeito grande). Para o tempo da análise de mutação, rejeita-se $H_{0,2}$: o Java foi mais lento em 90\% das comparações ($\hat{A}_{12} = 0{,}90$, efeito grande). O teste de Shapiro-Wilk rejeitou a normalidade do \ms{} do Node.js ($p < 0{,}001$) e não se aplica ao Java, cujo valor é constante, o que confirma a escolha de um teste não paramétrico. Como discutido na QP3 e na QP4, a significância estatística do \ms{} decorre da baixa variância e da composição dos operadores; a diferença prática é de 2,2 pontos no recorte completo e desaparece quando se comparam apenas mutantes do mesmo tipo.
-
-\begin{table}[!htbp]
-\centering
-\caption{Testes de Mann-Whitney U (bilateral, $n = 30$ por grupo) e tamanho de efeito $\hat{A}_{12}$ (probabilidade de Java $>$ Node.js).}
+\caption{Teste de $H_0$ (Mann-Whitney U bilateral, $n = 30$ por grupo, $p$ corrigido por Holm) e $\hat{A}_{12}$, a probabilidade de uma execução Java superar uma Node.js. Os testes dos efeitos de suíte, tentativas e tempo estão no Apêndice~\ref{ap:testes}.}
 \label{tab:testes}
 \small
-\begin{tabularx}{\textwidth}{@{}L{4.4cm} r r r r r l@{}}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l r r r l r r l@{}}
 \toprule
-Métrica & \shortstack{Mediana\\Java} & \shortstack{Mediana\\Node.js} & U & $p$-valor & $\hat{A}_{12}$ & Efeito \\
+ & & \multicolumn{3}{c}{Operadores padrão} & \multicolumn{3}{c}{Operadores harmonizados} \\
+Suíte & Tent. & $p$ & $\hat{A}_{12}$ & $H_0$ & $p$ & $\hat{A}_{12}$ & $H_0$ \\
 \midrule
-\textit{Mutation score} (\%) & 50,00 & 52,12 & 0 & $6{,}5 \times 10^{-13}$ & 0,00 & grande \\
-\textit{Mutation score}, categorias comuns (\%) & 48,65 & 57,28 & 0 & $1{,}5 \times 10^{-13}$ & 0,00 & grande \\
-\textit{Mutation score}, sem acessores (\%) & 48,42 & 52,74 & 0 & $6{,}5 \times 10^{-13}$ & 0,00 & grande \\
-Tempo da análise de mutação (s) & 33,67 & 27,95 & 813 & $8{,}4 \times 10^{-8}$ & 0,90 & grande \\
-Tempo da suíte de propriedades (s) & 2,28 & 1,23 & 900 & $3{,}0 \times 10^{-11}$ & 1,00 & grande \\
+Fraca & 10 & \pEcoFracaDez & \aumEcoFracaDez & \decEcoFracaDez & \pEcoFracaDezHarm & \aumEcoFracaDezHarm & \decEcoFracaDezHarm \\
+ & 100 & \pEcoFracaCem & \aumEcoFracaCem & \decEcoFracaCem & \pEcoFracaCemHarm & \aumEcoFracaCemHarm & \decEcoFracaCemHarm \\
+ & 1000 & \pEcoFracaMil & \aumEcoFracaMil & \decEcoFracaMil & \pEcoFracaMilHarm & \aumEcoFracaMilHarm & \decEcoFracaMilHarm \\
+Forte & 10 & \pEcoForteDez & \aumEcoForteDez & \decEcoForteDez & \pEcoForteDezHarm & \aumEcoForteDezHarm & \decEcoForteDezHarm \\
+ & 100 & \pEcoForteCem & \aumEcoForteCem & \decEcoForteCem & \pEcoForteCemHarm & \aumEcoForteCemHarm & \decEcoForteCemHarm \\
+ & 1000 & \pEcoForteMil & \aumEcoForteMil & \decEcoForteMil & \pEcoForteMilHarm & \aumEcoForteMilHarm & \decEcoForteMilHarm \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\textbf{QP5 -- Os mutantes cobertos são também detectados?} Não, quando as propriedades são fracas. Com 100 tentativas, a suíte fraca cobriu \coblJavaFracaCem\% das linhas do domínio no Java e \coblNodeFracaCem\% no Node.js, mas detectou cerca de metade dos mutantes; no módulo de lotes do Java, todos os mutantes foram cobertos e um terço foi detectado (Figura~\ref{fig:cobertura}). Com a suíte forte, a cobertura subiu pouco (\coblJavaForteCem\% e \coblNodeForteCem\%), mas o \ms{} subiu mais de 30 pontos. É a ``lacuna de oráculo'' descrita por \citet{jain2023gap}: a cobertura mostrou onde a suíte não chegava, mas não que metade do código coberto não era verificado.
+
+\textbf{QP6 -- Onde se concentram os mutantes não detectados, e por quê?} A Tabela~\ref{tab:sobreviventes} classifica os mutantes não detectados em ao menos uma execução. Na suíte fraca predominam as \textbf{regras sem propriedade} (\clsJavaFracaRegraPct\% no Java e \clsNodeFracaRegraPct\% no Node.js), principalmente validações de cadastro, evento inativo e entidade inexistente, seguidas dos \textbf{oráculos fracos}. O caso mais claro é o preço: um mutante que faz o subtotal valer sempre zero sobrevive a P1--P4, porque zero é não negativo, um desconto zero está entre zero e o subtotal, a ordem dos itens não muda zero e um cupom inválido não altera zero. Na suíte forte, as regras sem propriedade desaparecem e predominam os mutantes de \textbf{entrada não gerada} (\clsJavaForteEntradaPct\% e \clsNodeForteEntradaPct\%), limites exatos que respondem ao número de tentativas; os oráculos fracos restantes são, no Java, valores de retorno não observados. Os \textbf{equivalentes} são poucos. O oráculo de preço (P9) foi a propriedade que mais matou nos dois ecossistemas, e as propriedades de limite da suíte fraca (P1, P2, P5) não têm nenhuma morte exclusiva na suíte forte (Figura~\ref{fig:propriedades}).
+
+\begin{table}[!htbp]
+\centering
+\caption{Mutantes não detectados em ao menos uma das 90 execuções de cada combinação de ecossistema e suíte, por classe (todos os operadores avaliados).}
+\label{tab:sobreviventes}
+\small
+\begin{tabularx}{\textwidth}{@{}l Y r r r r@{}}
+\toprule
+Classe & Principais causas & \multicolumn{2}{c}{Suíte fraca} & \multicolumn{2}{c}{Suíte forte} \\
+ & & Java & Node.js & Java & Node.js \\
+\midrule
+Regra sem propriedade & Validações; evento inativo; entidade inexistente & \clsJavaFracaRegra & \clsNodeFracaRegra & \clsJavaForteRegra & \clsNodeForteRegra \\
+Oráculo fraco & Preço verificado só por limites; retornos não observados & \clsJavaFracaOraculo & \clsNodeFracaOraculo & \clsJavaForteOraculo & \clsNodeForteOraculo \\
+Entrada não gerada & Limites exatos (validade, mínimo, faixas) & \clsJavaFracaEntrada & \clsNodeFracaEntrada & \clsJavaForteEntrada & \clsNodeForteEntrada \\
+Equivalente & Identificadores com outro formato; atalho para cupom nulo & \clsJavaFracaEquivalente & \clsNodeFracaEquivalente & \clsJavaForteEquivalente & \clsNodeForteEquivalente \\
+\midrule
+Total & & \clsJavaFracaTotal & \clsNodeFracaTotal & \clsJavaForteTotal & \clsNodeForteTotal \\
 \bottomrule
 \end{tabularx}
 \end{table}
+
+\textbf{QP7 -- Qual ecossistema exige mais tempo e mais configuração?} O custo dependeu da suíte (Figura~\ref{fig:tempo}). Com a suíte fraca, o StrykerJS foi mais rápido por mutante (\tpmNodeFracaCem{}~s contra \tpmJavaFracaCem{}~s com 100 tentativas); com a suíte forte, o PIT foi mais rápido no total e por mutante em todos os níveis (\tmutJavaForteMil{}~s contra \tmutNodeForteMil{}~s com 1000 tentativas). A configuração tem tamanho parecido: no Java, dois arquivos e quatro artefatos declarados (jqwik, PIT, o \textit{plugin} JUnit~5 do PIT e JaCoCo); no Node.js, quatro arquivos e quatro pacotes. Dois detalhes do Java não são óbvios: sem o \textit{plugin} JUnit~5 o PIT não encontra os testes, e o reaproveitamento de sementes do jqwik precisa ser desligado para que um mutante não influencie o seguinte.

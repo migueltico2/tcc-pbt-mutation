@@ -25,6 +25,7 @@
         <pitest.version>1.18.2</pitest.version>
         <pitest.junit5.version>1.2.3</pitest.junit5.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <pit.targetTests>br.pucminas.tcc.ingressos.properties.PropriedadesPrecoTest,br.pucminas.tcc.ingressos.properties.PropriedadesDisponibilidadeTest,br.pucminas.tcc.ingressos.properties.PropriedadesStatusTest</pit.targetTests>
     </properties>
 
     <dependencies>
@@ -92,9 +93,8 @@
                     <targetClasses>
                         <param>br.pucminas.tcc.ingressos.domain.*</param>
                     </targetClasses>
-                    <targetTests>
-                        <param>br.pucminas.tcc.ingressos.properties.*</param>
-                    </targetTests>
+                    <!-- Suíte fraca (P1–P8) por padrão; suíte forte (P1–P17) com -Psuite-forte -->
+                    <targetTests>${pit.targetTests}</targetTests>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
                     </mutators>
@@ -113,6 +113,13 @@
     </build>
 
     <profiles>
+        <!-- Suíte forte na mutação: mvn test-compile org.pitest:pitest-maven:mutationCoverage -Psuite-forte -->
+        <profile>
+            <id>suite-forte</id>
+            <properties>
+                <pit.targetTests>br.pucminas.tcc.ingressos.properties.*</pit.targetTests>
+            </properties>
+        </profile>
         <!-- Só a suíte de propriedades (mesma suíte medida na mutação) -->
         <profile>
             <id>cobertura-propriedades</id>

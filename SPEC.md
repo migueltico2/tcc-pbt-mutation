@@ -102,6 +102,30 @@ identificador (R1…R20) e cada propriedade (P1…P8) aponta as regras que verif
 | P7 Cancelamento restaura | Confirmar e depois cancelar (ou expirar) devolve cada lote à disponibilidade inicial. | R17 |
 | P8 Transições válidas | Para qualquer sequência de operações, cada operação ou segue a tabela R18, ou é recusada sem mudar o status; estados finais nunca mudam. | R18, R19 |
 
+## Suíte forte (P9–P17)
+
+A suíte das propriedades P1–P8 (suíte **fraca**, vinda do TCC I) verifica limites e relações de metade
+das regras. A suíte **forte** acrescenta P9–P17, derivadas regra a regra desta especificação para que
+toda regra R1–R20 tenha ao menos uma propriedade com **oráculo exato**: o resultado esperado é
+calculado por um modelo de referência escrito a partir deste documento (não a partir do código), e os
+nomes de tipos e status são comparados com os nomes definidos aqui.
+
+| Propriedade | Enunciado | Regras |
+| --- | --- | --- |
+| P9 Oráculo de preço | Para qualquer compra e cupom (gerado, inexistente ou ausente), subtotal, desconto e total são exatamente os do modelo de R8 e R11–R13. | R8, R11–R13 |
+| P10 Validação de evento | Evento com nome nulo/em branco ou capacidade ≤ 0 é recusado com `DADOS_INVALIDOS`; evento válido nasce `ATIVO` e é recuperado com os mesmos dados. | R1, R2 |
+| P11 Validação de lote e capacidade | Em qualquer sequência de cadastros de lotes, cada lote é recusado com `DADOS_INVALIDOS` ou `CAPACIDADE_EXCEDIDA` exatamente quando o modelo prevê (lotes de outro evento não contam); lote aceito nasce com disponibilidade = total. | R3, R4, R5 |
+| P12 Validação de cupom | O cadastro aceita exatamente os cupons válidos e preserva seus dados. | R9 |
+| P13 Itens da reserva | Adicionar item segue a ordem de verificação (status, quantidade, lote do evento); item aceito é registrado, item recusado não altera a reserva. | R7 |
+| P14 Evento inativo e reserva vazia | Só evento `ATIVO` aceita novas reservas, itens e confirmações; reserva vazia não confirma; confirmação recusada não altera lotes. | R2, R6, R14 |
+| P15 Cupom só em reserva criada | Aplicar cupom só é aceito em reserva `CRIADA` (código inexistente é guardado); nos demais status é recusado sem efeito. | R10 |
+| P16 Entidade inexistente | Toda operação sobre id inexistente falha com o código da entidade; ids existentes continuam sendo encontrados. | R20 |
+| P17 Modelo de estoque | Sob qualquer sequência de confirmar, pagar, cancelar e expirar sobre várias reservas, disponibilidade dos lotes, status e erros coincidem com o modelo de R15–R19 após cada operação. | R15–R19 |
+
+**Ordem de verificação.** Quando mais de uma pré-condição falha, as implementações verificam na ordem
+em que as regras as listam: em R7, status → evento ativo → quantidade → lote existe → lote do evento;
+em R14/R15, status → reserva vazia → evento ativo → disponibilidade. P13, P14 e P17 usam essa ordem.
+
 ## Parâmetros dos geradores (iguais nos dois ecossistemas)
 
 | Dado | Faixa |
@@ -117,4 +141,18 @@ identificador (R1…R20) e cada propriedade (P1…P8) aponta as regras que verif
 | Máximo de desconto | ausente ou 1 a 50 000 centavos |
 | Validade do cupom | data base ± 30 dias |
 | Sequência de operações (P8) | 1 a 8 operações entre confirmar, pagar, cancelar, expirar, adicionar item |
-| Tentativas por propriedade | 100 |
+| Tentativas por propriedade | 100 (no experimento: 10, 100 e 1000) |
+
+Geradores adicionais da suíte forte:
+
+| Dado | Faixa |
+| --- | --- |
+| Nome do evento (P10) | `""`, `"   "`, `"Show"` ou nulo (equiprováveis) |
+| Capacidade do evento (P10) | −5 a 300 |
+| Cadastro de lotes (P11) | capacidade 1 a 200; lote de outro evento 1 a 50; 1 a 6 lotes com preço −50 a 100 000 e total −3 a 80 |
+| Cupom bruto (P12) | código `""`, `" "`, `"C1"` ou nulo; tipo PERCENTUAL (valor −5 a 110) ou FIXO (valor −5 a 60 000); mínimo −5 a 1000; máximo ausente (25%) ou −5 a 1000 |
+| Item adicional (P13) | quantidade −3 a 10; lote do evento ou de outro evento; reserva CRIADA, CONFIRMADA ou CANCELADA |
+| Operações sobre o evento (P14) | status do evento ATIVO, CANCELADO ou ENCERRADO; operação criar reserva, adicionar item ou confirmar; reserva com ou sem item |
+| Status da reserva (P15) | os cinco status de R18; código existente ou inexistente |
+| Id inexistente (P16) | uma das 14 operações; sufixo numérico 1000 a 9999 |
+| Sequência de estoque (P17) | 2 a 4 reservas (itens como acima); 1 a 12 operações entre confirmar, pagar, cancelar e expirar |

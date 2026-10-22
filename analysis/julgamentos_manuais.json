@@ -1,0 +1,90 @@
+{
+ "java|Evento.getData:25:EmptyObjectReturnValsMutator:5": {
+  "classe": "oráculo fraco",
+  "justificativa": "o método de acesso devolve texto vazio; nenhuma propriedade confere a data do evento, que o SPEC não restringe por regra própria"
+ },
+ "java|Evento.getLocal:26:EmptyObjectReturnValsMutator:5": {
+  "classe": "oráculo fraco",
+  "justificativa": "o método de acesso devolve texto vazio; nenhuma propriedade confere o local do evento, que o SPEC não restringe por regra própria"
+ },
+ "java|Lote.getNome:24:EmptyObjectReturnValsMutator:5": {
+  "classe": "oráculo fraco",
+  "justificativa": "o método de acesso devolve texto vazio; nenhuma propriedade confere o nome do lote, que o SPEC não restringe por regra própria"
+ },
+ "java|ServicoIngressos.adicionarItem:134:NullReturnValsMutator:65": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.alterarStatusEvento:54:NullReturnValsMutator:15": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.aplicarCupom:142:NullReturnValsMutator:20": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.cancelar:187:NullReturnValsMutator:7": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.confirmar:174:NullReturnValsMutator:117": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.encerrar:207:NullReturnValsMutator:73": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta); encerrar é usado por cancelar e expirar"
+ },
+ "java|ServicoIngressos.expirar:192:NullReturnValsMutator:7": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.pagar:182:NullReturnValsMutator:20": {
+  "classe": "oráculo fraco",
+  "justificativa": "a operação devolve null em vez do objeto atualizado; as propriedades consultam o estado depois, por buscar*, sem observar o valor devolvido (a camada REST usaria esse valor na resposta)"
+ },
+ "java|ServicoIngressos.calcularTotais:152:RemoveConditionalMutator_EQUAL_ELSE:51": {
+  "classe": "equivalente",
+  "justificativa": "sem o atalho, cupons.get(null) devolve null no LinkedHashMap: o cupom continua ausente e o desconto é o mesmo"
+ },
+ "java|ServicoIngressos.novoId:27:MathMutator:7": {
+  "classe": "equivalente",
+  "justificativa": "o identificador muda de forma (contador decrescente: EVT--1, LOT--2...), mas continua único em cada coleção; o SPEC não define o formato dos identificadores"
+ },
+ "node|calculadoraPreco.js:24:7-24.33:EqualityOperator:sub <= cupom.minimoCentavos": {
+  "classe": "entrada não gerada",
+  "justificativa": "só difere quando o subtotal é exatamente igual ao mínimo do cupom (e o desconto seria positivo); os geradores não produziram essa igualdade em nenhuma execução; P9 detectaria"
+ },
+ "node|modelos.js:15:67-15.73:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o domínio só compara o tipo com PERCENTUAL; qualquer outro valor é tratado como fixo, e o cupom guarda o texto recebido"
+ },
+ "node|modelos.js:5:65-5.76:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o domínio só compara o status do evento com ATIVO; o status gravado é o valor recebido em alterarStatusEvento"
+ },
+ "node|modelos.js:5:89-5.100:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o domínio só compara o status do evento com ATIVO; o status gravado é o valor recebido em alterarStatusEvento"
+ },
+ "node|servicoIngressos.js:109:45-109.50:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o identificador muda de forma (sem prefixo: -3), mas continua único em cada coleção; o SPEC não define o formato dos identificadores"
+ },
+ "node|servicoIngressos.js:153:19-153.47:ConditionalExpression:false": {
+  "classe": "equivalente",
+  "justificativa": "sem o atalho, cupons.get(null) devolve undefined, convertido em null pelo operador ??: o desconto é o mesmo"
+ },
+ "node|servicoIngressos.js:29:5-29.21:UpdateOperator:this.sequencia--": {
+  "classe": "equivalente",
+  "justificativa": "o identificador muda de forma (contador decrescente: EVT--1, LOT--2...), mas continua único em cada coleção; o SPEC não define o formato dos identificadores"
+ },
+ "node|servicoIngressos.js:40:43-40.48:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o identificador muda de forma (sem prefixo: -1), mas continua único em cada coleção; o SPEC não define o formato dos identificadores"
+ },
+ "node|servicoIngressos.js:76:39-76.44:StringLiteral:\"\"": {
+  "classe": "equivalente",
+  "justificativa": "o identificador muda de forma (sem prefixo: -2), mas continua único em cada coleção; o SPEC não define o formato dos identificadores"
+ }
+}

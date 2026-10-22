@@ -18,6 +18,7 @@
 \usepackage{enumitem}
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
 \usepackage[square,authoryear]{natbib}
+\usepackage{pifont}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,shapes.geometric}
 \usepackage{xurl}
@@ -40,6 +41,13 @@
 
 \newcommand{\ms}{\textit{mutation score}}
 \newcommand{\MT}{\textit{Mutation Testing}}
+\definecolor{verde}{RGB}{0,110,50}
+\definecolor{cinza}{RGB}{110,110,110}
+\newcommand{\rejeita}{\textcolor{verde}{\textbf{\ding{51}~rejeitada}}}
+\newcommand{\naorejeita}{\textcolor{cinza}{\ding{55}~não rejeitada}}
+\input{numeros}
+\input{numeros_classes}
+% números dos resultados, gerados por analysis/analise.py
 
 \begin{document}
 
@@ -76,8 +84,12 @@ Belo Horizonte, 30 de novembro de 2026.
 \input{secoes/resultados}
 \input{secoes/ameacas}
 \input{secoes/conclusao}
+\input{secoes/replicacao}
 
 \bibliographystyle{plainnat}
 \bibliography{referencias}
+
+\clearpage
+\input{secoes/apendices}
 
 \end{document}

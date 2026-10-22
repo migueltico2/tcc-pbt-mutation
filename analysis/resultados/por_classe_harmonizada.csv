@@ -1,0 +1,19 @@
+ecossistema,suite,harmonizado,avaliacoes,detectados,por_execucao,mutation_score
+java,forte,aritmético,300,258,10.0,86.0
+java,forte,condição forçada,2160,1996,72.0,92.4074074074074
+java,forte,limite relacional,390,257,13.0,65.8974358974359
+java,forte,negação relacional,1080,1080,36.0,100.0
+java,fraca,aritmético,300,120,10.0,40.0
+java,fraca,condição forçada,2160,1140,72.0,52.77777777777778
+java,fraca,limite relacional,390,120,13.0,30.76923076923077
+java,fraca,negação relacional,1080,990,36.0,91.66666666666667
+node,forte,aritmético,300,299,10.0,99.66666666666667
+node,forte,condição forçada,2100,2027,70.0,96.52380952380952
+node,forte,incremento,30,0,1.0,0.0
+node,forte,limite relacional,390,277,13.0,71.02564102564102
+node,forte,negação relacional,1020,1020,34.0,100.0
+node,fraca,aritmético,300,180,10.0,60.0
+node,fraca,condição forçada,2100,900,70.0,42.857142857142854
+node,fraca,incremento,30,0,1.0,0.0
+node,fraca,limite relacional,390,113,13.0,28.974358974358974
+node,fraca,negação relacional,1020,900,34.0,88.23529411764706

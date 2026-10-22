@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Lote,3,50,0,0,1,17,1,8,1,8
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Reserva.Item,0,15,0,0,0,6,0,3,0,3
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,RegraNegocioException,0,10,0,0,0,4,0,2,0,2
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Evento,6,37,0,0,2,13,2,6,2,6
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Cupom,0,39,0,0,0,14,0,7,0,7
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Modelos.TipoCupom,0,15,0,0,0,1,0,1,0,1
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,CalculadoraPreco.Totais,0,21,0,0,0,8,0,4,0,4
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,CalculadoraPreco,6,81,1,11,1,19,1,8,0,3
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,ServicoIngressos,11,578,5,69,2,114,5,53,0,21
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Modelos.StatusEvento,0,21,0,0,0,1,0,1,0,1
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Reserva,0,47,0,0,0,14,0,9,0,9
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,Modelos.StatusReserva,0,33,0,0,0,1,0,1,0,1
+JaCoCo Coverage Report,br.pucminas.tcc.ingressos.domain,CalculadoraPreco.ItemPrecificado,0,15,0,0,0,6,0,3,0,3

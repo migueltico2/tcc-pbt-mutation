@@ -1,0 +1,5 @@
+ecossistema,suite,entrada não gerada,equivalente,oráculo fraco,regra sem propriedade
+java,forte,42,2,11,0
+java,fraca,15,2,20,41
+node,forte,75,8,0,0
+node,fraca,15,8,26,88

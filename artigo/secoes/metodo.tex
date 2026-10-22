@@ -2,195 +2,35 @@
 
 \subsection{Tipo de pesquisa}
 
-Trata-se de um experimento controlado comparativo, com análise quantitativa (\ms{}, contagens de mutantes, cobertura e tempo, em 30 execuções por ecossistema) e qualitativa (classificação manual dos mutantes sobreviventes e registro do esforço de configuração). O fator estudado é o ecossistema, com dois níveis: Java/Spring Boot com jqwik e PIT, e Node.js/Express com fast-check e StrykerJS. Como cada ecossistema usa sua própria ferramenta de mutação, o fator é o par ``linguagem + ferramentas'', e não a linguagem isolada; essa escolha é discutida na Seção~6.
+Quanto à natureza, a pesquisa é \textbf{aplicada}, pois busca orientar a escolha e o uso de ferramentas de teste em APIs. Quanto à abordagem, é \textbf{mista}: predominantemente quantitativa (\ms{}, cobertura e tempo, com testes de hipótese), com uma etapa qualitativa na classificação dos mutantes não detectados. Quanto aos objetivos, é \textbf{explicativa}, porque procura as causas das diferenças de efetividade. Quanto aos procedimentos, é um \textbf{experimento controlado}, com manipulação de fatores e repetição; o raciocínio é \textbf{hipotético-dedutivo}, o ambiente é de \textbf{laboratório} e a coleta é \textbf{transversal}. O experimento foi escolhido porque só ele permite variar um fator de cada vez (ecossistema, força das propriedades, tentativas) mantendo os demais fixos, o que um estudo observacional de projetos existentes não permitiria.
 
-\subsection{Objetivos, questões e métricas (GQM)}
-\label{sec:gqm}
+\subsection{Ambiente}
 
-O estudo segue o modelo \textit{Goal-Question-Metric} \citep{basili1994gqm}. O objetivo é: \textit{analisar} suítes de testes baseadas em propriedades \textit{com o propósito de} compará-las \textit{com respeito à} efetividade medida por \ms{} \textit{do ponto de vista} do desenvolvedor \textit{no contexto de} duas implementações equivalentes de uma API REST em Java/Spring Boot e Node.js/Express. A Tabela~\ref{tab:gqm} desdobra esse objetivo em questões e métricas; a Tabela~\ref{tab:metricas} define cada métrica.
+As execuções ocorreram em uma máquina virtual com 2 vCPUs Intel Xeon de 2,1~GHz, 7~GB de RAM e Ubuntu 24.04, com duas \textit{threads} de mutação em cada ferramenta. A máquina não tinha acesso ao Maven Central; por isso, jqwik e PIT foram compilados a partir do código-fonte das versões publicadas, e o PIT foi acionado pela mesma API que seu \textit{plugin} Maven usa. Um fluxo de integração contínua (GitHub Actions) executa os testes Java com \texttt{mvn test}, incluindo a camada Spring, e o PIT pelo \textit{plugin} oficial; para a suíte fraca com 100 tentativas, ele reproduziu os 126 mutantes e o \ms{} de 50,0\% obtidos no experimento.
 
-\begin{table}[!htbp]
-\centering
-\caption{Desdobramento GQM: objetivos específicos, questões de pesquisa e métricas.}
-\label{tab:gqm}
-\small
-\begin{tabularx}{\textwidth}{@{}l Y l@{}}
-\toprule
-OE & Questão de pesquisa & Métricas \\
-\midrule
-OE1 & QP1: Quais regras de negócio puderam ser expressas como propriedades equivalentes nos dois ecossistemas? & M1, M2, M3 \\
-OE2 & QP2: Qual o \ms{} de cada suíte? & M4, M5 \\
-OE2 & QP3: A diferença de \ms{} entre ecossistemas é estatisticamente significativa, e de que tamanho? & M6 \\
-OE2 & QP4: A diferença se mantém quando só as categorias de operadores comuns às duas ferramentas são consideradas? & M7 \\
-OE3 & QP5: Os mutantes cobertos pela suíte são também detectados por ela? & M8, M9 \\
-OE4 & QP6: Quais regras e propriedades concentram mutantes sobreviventes, e por quê? & M10, M11 \\
-OE5 & QP7: Qual ecossistema exige mais tempo de execução e esforço de configuração? & M12, M13, M14 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\subsection{Métodos, técnicas e estratégias}
 
-\begin{table}[!htbp]
-\centering
-\caption{Métricas: definição, forma de coleta e questão atendida.}
-\label{tab:metricas}
-\small
-\begin{tabularx}{\textwidth}{@{}l L{2.9cm} Y L{2.6cm} l@{}}
-\toprule
-Id & Métrica & Definição / fórmula & Fonte & QP \\
-\midrule
-M1 & Regras cobertas & Regras R1--R20 verificadas por ao menos uma propriedade / 20 & \texttt{SPEC.md} & QP1 \\
-M2 & Propriedades equivalentes & Propriedades de P1--P8 implementadas nos dois ecossistemas com o mesmo enunciado e os mesmos geradores & código & QP1 \\
-M3 & Tamanho das suítes & Linhas de código não vazias e não comentário de propriedades e geradores & código & QP1, QP7 \\
-M4 & Contagens de mutantes & Gerados, mortos, \textit{timeout}, sobreviventes, sem cobertura e erros & PIT XML, Stryker JSON & QP2 \\
-M5 & \textit{Mutation score} & Equação~\ref{eq:ms}, sobre todos os mutantes válidos & idem & QP2 \\
-M6 & Diferença de \ms{} & Mann-Whitney U, $p$-valor e $\hat{A}_{12}$ sobre os 30 valores por ecossistema & \texttt{runs.csv} & QP3 \\
-M7 & \textit{Score} por categoria & Equação~\ref{eq:ms} restrita às categorias de operadores comuns (Tabela~\ref{tab:categorias}) & \texttt{mutants.csv} & QP4 \\
-M8 & Cobertura & Linhas e ramos do domínio cobertos pela suíte de propriedades & JaCoCo, Istanbul & QP5 \\
-M9 & Cobertura de mutantes & Mutantes não classificados como ``sem cobertura'' / mutantes válidos, por módulo & \texttt{mutants.csv} & QP5 \\
-M10 & Sobreviventes por recorte & Sobreviventes por módulo, categoria, e mortes por propriedade & \texttt{mutants.csv} & QP6 \\
-M11 & Classe do sobrevivente & Classificação manual: equivalente, propriedade fraca ou regra sem propriedade & análise manual & QP6 \\
-M12 & Tempo & Tempo de parede da suíte e da análise de mutação, por execução & \texttt{runs.csv} & QP7 \\
-M13 & Mutantes por execução & Média de mutantes válidos gerados por execução & \texttt{runs.csv} & QP7 \\
-M14 & Esforço de configuração & Arquivos de configuração, dependências e problemas registrados até a primeira execução & diário & QP7 \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\textbf{Aplicação de referência.} Uma API REST de gestão de eventos e reservas de ingressos, com 20 regras de negócio fixadas em uma especificação única (\texttt{SPEC.md}) escrita antes do código: cadastro de eventos, lotes e cupons, cálculo de preço com desconto, disponibilidade de ingressos e transições de status da reserva (Apêndice~\ref{ap:regras}). A mesma API foi implementada em Java/Spring Boot e em Node.js/Express, com as mesmas 14 rotas e toda a regra em um serviço de domínio. A equivalência foi verificada por 11 cenários de exemplo compartilhados (125 passos), aprovados nas duas implementações.
 
-\subsection{Aplicação de referência}
+\textbf{Suítes de propriedades.} A \textbf{suíte fraca} reúne as oito propriedades do TCC~I (P1--P8), que verificam 10 das 20 regras; quatro delas só conferem limites (``o total nunca é negativo''). A \textbf{suíte forte} acrescenta nove propriedades (P9--P17), derivadas regra a regra do \texttt{SPEC.md}, para que toda regra tenha uma propriedade com oráculo exato: o resultado esperado é calculado por um modelo de referência escrito a partir da especificação (Apêndice~\ref{ap:propriedades}). As propriedades e os geradores são equivalentes nos dois ecossistemas.
 
-A aplicação é uma API REST de gestão de eventos e reservas de ingressos, inspirada no domínio de plataformas como a Ticketmaster Discovery API \citep{ticketmaster2026}. A API externa não é o objeto do experimento, porque o \MT{} exige acesso ao código. As regras foram fixadas em uma especificação única (\texttt{SPEC.md}), escrita antes das implementações, com 20 regras numeradas. A Tabela~\ref{tab:regras} as resume por módulo.
+\textbf{Fatores e repetições.} O experimento cruza o ecossistema (Java com jqwik e PIT; Node.js com fast-check e StrykerJS), a suíte (fraca, forte) e o número de tentativas por propriedade (10, 100, 1000), em 12 configurações executadas 30 vezes cada (360 execuções). Em cada uma das 30 rodadas, as 12 configurações foram executadas em ordem aleatória. A mutação atinge só o domínio, as propriedades chamam o domínio diretamente e a semente aleatória muda a cada execução; as demais decisões de projeto estão no Apêndice~\ref{ap:operadores}.
 
-\begin{table}[!htbp]
-\centering
-\caption{Módulos e regras de negócio da aplicação de referência.}
-\label{tab:regras}
-\small
-\begin{tabularx}{\textwidth}{@{}l l Y@{}}
-\toprule
-Módulo & Regras & Conteúdo \\
-\midrule
-Eventos & R1, R2 & Capacidade $> 0$ e nome não vazio; só eventos \texttt{ATIVO} aceitam reservas, itens e confirmações. \\
-Lotes & R3--R5 & Preço $\ge 0$ e quantidade $> 0$; soma das quantidades dos lotes $\le$ capacidade do evento; $0 \le$ disponível $\le$ total. \\
-Reservas & R6--R8 & Reserva nasce \texttt{CRIADA}; itens só em reserva \texttt{CRIADA}, com quantidade $> 0$ e lote do mesmo evento; subtotal $= \sum$ preço $\times$ quantidade. \\
-Cupons & R9--R13 & Percentual em [1, 100] ou fixo $> 0$; desconto $= \lfloor$subtotal $\times$ \%$/100\rfloor$ ou valor fixo, limitado ao teto; desconto zero se o cupom não existe, expirou ou o subtotal está abaixo do mínimo; $0 \le$ desconto $\le$ subtotal. \\
-Disponibilidade & R14--R17 & Confirmar exige itens e evento ativo; verifica todos os lotes antes de baixar qualquer um (tudo ou nada); cancelar ou expirar reserva confirmada devolve as quantidades. \\
-Status & R18--R20 & Transições da Figura~\ref{fig:estados}; estados finais não mudam; entidade inexistente gera erro de ``não encontrado''. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\textbf{Operadores de mutação.} Como cada ferramenta tem seus próprios operadores, o fator ecossistema mistura linguagem e ferramenta. Para separá-los, o \ms{} é calculado em dois recortes sobre as mesmas execuções: o \textbf{padrão} de cada ferramenta e o \textbf{harmonizado}, que mantém só as cinco classes de mutação aplicadas da mesma forma pelo PIT e pelo StrykerJS (aritmética, limite relacional, negação relacional, condição forçada e incremento; Apêndice~\ref{ap:operadores}).
 
-\begin{figure}[!htbp]
-\centering
-\begin{tikzpicture}[
-  estado/.style={draw, rounded corners=4pt, minimum width=2.3cm, minimum height=0.8cm, font=\small},
-  final/.style={estado, double},
-  seta/.style={-{Stealth[length=2mm]}, thick},
-  rot/.style={font=\scriptsize, inner sep=2pt}]
-  \node[estado] (criada) at (0,0) {CRIADA};
-  \node[estado] (confirmada) at (5,0) {CONFIRMADA};
-  \node[final] (paga) at (9.2,0) {PAGA};
-  \node[final] (cancelada) at (2.5,-1.6) {CANCELADA};
-  \node[final] (expirada) at (2.5,-3.0) {EXPIRADA};
-  \draw[seta] (criada) -- node[rot, above] {confirmar} (confirmada);
-  \draw[seta] (confirmada) -- node[rot, above] {pagar} (paga);
-  \draw[seta] (criada.south east) -- node[rot, above right, pos=0.4] {cancelar} (cancelada.north west);
-  \draw[seta] (confirmada.south west) -- node[rot, above left, pos=0.4] {cancelar$^{*}$} (cancelada.north east);
-  \draw[seta] (criada.south) |- node[rot, left, pos=0.4] {expirar} (expirada.west);
-  \draw[seta] (confirmada.south) |- node[rot, right, pos=0.4] {expirar$^{*}$} (expirada.east);
-\end{tikzpicture}
-\caption{Transições de status da reserva (R18). Estados com borda dupla são finais (R19). $^{*}$Devolve a disponibilidade dos lotes (R17).}
-\label{fig:estados}
-\end{figure}
-
-\subsection{Implementações e ferramentas}
-
-As duas implementações expõem as mesmas 14 rotas REST e delegam toda a regra a um serviço de domínio com persistência em memória. A Tabela~\ref{tab:ferramentas} lista as versões. O código, a especificação, os scripts e os dados brutos estão no repositório do trabalho\footnote{\url{https://github.com/migueltico2/tcc-pbt-mutation}}.
-
-\begin{table}[!htbp]
-\centering
-\caption{Ferramentas e versões usadas no experimento.}
-\label{tab:ferramentas}
-\small
-\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
-\toprule
-Papel & Java & Node.js \\
-\midrule
-Plataforma & Java 17 (\texttt{--release 17}, JDK 21) & Node.js 22.22 \\
-Camada REST & Spring Boot 3.3.5 & Express 5.3 \\
-Executor de testes & JUnit Platform 1.9 & Jest 30.5 \\
-PBT & jqwik 1.7.4 & fast-check 4.10.2 \\
-Mutação & PIT 1.18.2 + pitest-junit5-plugin 1.2.3, mutadores \texttt{DEFAULTS} & StrykerJS 10.0 + jest-runner, mutadores padrão \\
-Cobertura & JaCoCo 0.8.12 & Istanbul (via Jest) \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-A equivalência funcional foi verificada por 11 cenários de exemplo compartilhados (\texttt{shared/casos-exemplo.json}), com 125 passos, dos quais 28 esperam um código de erro específico. O mesmo arquivo é lido por um executor em cada ecossistema, e os 11 cenários passam nas duas implementações. Esses testes de exemplo não entram na análise de mutação.
-
-\subsection{Propriedades}
-
-As oito propriedades previstas no TCC~I foram implementadas nos dois ecossistemas com o mesmo enunciado, os mesmos geradores (mesmas faixas de valores) e 100 tentativas por propriedade (Tabela~\ref{tab:propriedades}). Os geradores produzem de 1 a 4 lotes (preço de 0 a 100\,000 centavos, quantidade de 1 a 50), de 1 a 5 itens (quantidade de 1 a 10) e cupons percentuais ou fixos com mínimo, teto opcional (ausente em 25\% dos casos) e validade de $\pm 30$ dias.
-
-\begin{table}[!htbp]
-\centering
-\caption{Propriedades implementadas, regras verificadas e tipo de oráculo.}
-\label{tab:propriedades}
-\small
-\begin{tabularx}{\textwidth}{@{}L{3.3cm} Y l l@{}}
-\toprule
-Propriedade & Enunciado & Regras & Oráculo \\
-\midrule
-P1 Total não negativo & Para qualquer reserva e cupom (válido, inexistente ou ausente), total $\ge 0$ & R8, R11--R13 & limite \\
-P2 Desconto limitado & $0 \le$ desconto $\le$ subtotal e total $=$ subtotal $-$ desconto & R11, R13 & limite \\
-P3 Comutatividade & Permutar os itens não altera o subtotal & R8 & metamórfico \\
-P4 Cupom inválido neutro & Cupom inexistente, expirado ou com mínimo acima do subtotal não altera o total & R12 & neutralidade \\
-P5 Disponibilidade não negativa & Após confirmações aceitas ou recusadas, $0 \le$ disponível $\le$ total & R5, R15 & limite \\
-P6 Redução correta & Confirmação aceita reduz exatamente o pedido; recusada não altera lotes & R15, R16 & valor exato \\
-P7 Cancelamento restaura & Confirmar e cancelar (ou expirar) devolve a disponibilidade inicial & R17 & ida e volta \\
-P8 Transições válidas & Sequências de 1 a 8 operações seguem o modelo da Figura~\ref{fig:estados} ou são recusadas sem mudar o status & R18, R19 & modelo \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\subsection{Decisões de projeto do experimento}
-
-Para tornar a comparação justa e viável, foram tomadas as decisões abaixo, todas registradas no repositório:
-
-\begin{itemize}
-  \item \textbf{Mutação só no domínio.} PIT e StrykerJS mutam apenas a camada de domínio (pacote \texttt{domain} e pasta \texttt{src/domain}); controladores e configuração do framework não contêm regra de negócio e só gerariam ruído.
-  \item \textbf{Propriedades chamam o domínio diretamente}, não via HTTP, para que o tempo medido não inclua o custo de cada servidor web.
-  \item \textbf{Dinheiro em centavos inteiros} nos dois lados, evitando divergências de ponto flutuante que não são do ecossistema.
-  \item \textbf{Só a suíte de propriedades} é usada na mutação e na cobertura; os testes de exemplo ficam de fora.
-  \item \textbf{Configurações equivalentes:} 100 tentativas, geração aleatória e semente nova a cada execução nos dois lados. No jqwik, o reaproveitamento da semente que falhou na execução anterior foi desligado, para que um mutante não influencie o próximo.
-  \item \textbf{Matriz completa de mortes:} o PIT registra todos os testes que matam cada mutante (\textit{full mutation matrix}) e o StrykerJS foi configurado para não parar no primeiro teste que falha (\texttt{disableBail}), o que permite atribuir cada morte a uma ou mais propriedades.
-  \item \textbf{Ferramentas como usadas na prática:} cada ferramenta de mutação roda com seu conjunto padrão de operadores. A comparação justa entre operadores é feita depois, por categorias (Tabela~\ref{tab:categorias}).
+\textbf{Hipóteses e análise estatística.} A hipótese do estudo é:
+\begin{itemize}[itemsep=0pt, topsep=2pt]
+  \item $H_0$: o \ms{} das suítes PBT não difere entre Java/Spring Boot e Node.js/\allowbreak Express;
+  \item $H_1$: o \ms{} das suítes PBT difere entre Java/Spring Boot e Node.js/Express.
 \end{itemize}
+$H_0$ foi testada em cada combinação de suíte, tentativas e recorte de operadores com o teste de Mann-Whitney U bilateral \citep{mann1947test} sobre as 30 execuções de cada lado. O tamanho do efeito foi medido pela estatística $\hat{A}_{12}$ de Vargha-Delaney \citep{vargha2000a12}, a probabilidade de uma execução Java superar uma Node.js ($0{,}5$ indica nenhuma diferença), como recomendam \citet{arcuri2011guide}. Os efeitos da suíte e do número de tentativas foram avaliados com os mesmos testes e com Kruskal-Wallis \citep{kruskal1952}. Todos os $p$-valores foram corrigidos pelo método de Holm \citep{holm1979}, a $\alpha = 0{,}05$. Como as execuções reavaliam os mesmos mutantes, a diferença entre ecossistemas também foi testada por qui-quadrado com o mutante distinto como unidade.
 
-\begin{table}[!htbp]
-\centering
-\caption{Categorias de operadores usadas para comparar as ferramentas. As cinco primeiras existem nas duas. $^{\dagger}$O grupo \texttt{DEFAULTS} do PIT 1.18 não inclui \texttt{NegateConditionals}; por isso, no Java, a categoria contém apenas mutantes de limite, enquanto o \texttt{EqualityOperator} do StrykerJS também nega comparações.}
-\label{tab:categorias}
-\small
-\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
-\toprule
-Categoria & PIT (\texttt{DEFAULTS}) & StrykerJS \\
-\midrule
-Aritmético & \texttt{Math}, \texttt{InvertNegs} & \texttt{ArithmeticOperator}, \texttt{AssignmentOperator}, \texttt{UnaryOperator} \\
-Relacional & \texttt{ConditionalsBoundary}$^{\dagger}$ & \texttt{EqualityOperator} \\
-Condicional/lógico & \texttt{RemoveConditional\_*} & \texttt{ConditionalExpression}, \texttt{LogicalOperator} \\
-Remoção de instrução & \texttt{VoidMethodCall} & \texttt{BlockStatement}, \texttt{CallExpression} \\
-Incremento & \texttt{Increments} & \texttt{UpdateOperator} \\
-\midrule
-Valor de retorno & \texttt{EmptyObject}, \texttt{Null}, \texttt{Primitive}, \texttt{True}/\texttt{FalseReturnVals} & --- \\
-Literal & --- & \texttt{StringLiteral}, \texttt{BooleanLiteral}, \texttt{ObjectLiteral}, \texttt{ArrayDeclaration} \\
-Chamada de método & --- & \texttt{MethodExpression}, \texttt{OptionalChaining} \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\textbf{Classificação dos mutantes não detectados.} Cada mutante não detectado em ao menos uma das 90 execuções de uma combinação de ecossistema e suíte recebeu uma de quatro classes: \textbf{entrada não gerada} (a propriedade detecta o defeito, mas só se o gerador produzir a entrada exata que o revela), \textbf{regra sem propriedade}, \textbf{oráculo fraco} (a regra é verificada, mas a propriedade não observa a diferença) ou \textbf{equivalente}. As classes partem das taxas de detecção e de um mapa entre cada linha do domínio e a regra que ela implementa; os mutantes que nenhuma suíte detectou foram lidos um a um. A planilha com a classe e a justificativa de cada mutante foi revisada pelo autor, que confirmou todas as classes.
 
-\subsection{Procedimento e ambiente de execução}
+\subsection{Fluxograma da metodologia}
+\label{sec:fluxo}
 
-O experimento seguiu seis etapas (Figura~\ref{fig:procedimento}). Cada uma das 30 execuções por ecossistema roda a suíte de propriedades com cobertura e, em seguida, a análise de mutação completa, gravando os relatórios brutos. Um script consolida os relatórios em duas tabelas: uma linha por execução (\texttt{runs.csv}) e uma linha por mutante por execução (\texttt{mutants.csv}). As execuções foram sequenciais (primeiro as 30 do Java, depois as 30 do Node.js), na mesma máquina virtual: 2 vCPUs Intel Xeon de 2,1~GHz, 7~GB de RAM, Ubuntu 24.04, com duas \textit{threads} de mutação em cada ferramenta.
+A Figura~\ref{fig:procedimento} mostra as etapas do estudo, descritas a seguir.
 
 \begin{figure}[!htbp]
 \centering
@@ -198,26 +38,93 @@ O experimento seguiu seis etapas (Figura~\ref{fig:procedimento}). Cada uma das 3
   etapa/.style={draw, rounded corners=4pt, align=center, font=\scriptsize, minimum height=1.0cm, text width=1.85cm},
   seta/.style={-{Stealth[length=1.8mm]}, thick}, node distance=0.3cm]
   \node[etapa] (e1) {1. Especificação (\texttt{SPEC.md})};
-  \node[etapa, right=of e1] (e2) {2. Duas APIs + casos compartilhados};
-  \node[etapa, right=of e2] (e3) {3. P1--P8 em jqwik e fast-check};
-  \node[etapa, right=of e3] (e4) {4. 30 execuções: cobertura + mutação};
-  \node[etapa, right=of e4] (e5) {5. Consolidação (CSV)};
-  \node[etapa, right=of e5] (e6) {6. Análise e testes estatísticos};
+  \node[etapa, right=of e1] (e2) {2. Duas APIs e cenários compartilhados};
+  \node[etapa, right=of e2] (e3) {3. Suítes fraca e forte};
+  \node[etapa, right=of e3] (e4) {4. 360 execuções: cobertura e mutação};
+  \node[etapa, right=of e4] (e5) {5. Consolidação e classificação};
+  \node[etapa, right=of e5] (e6) {6. Análise estatística};
   \foreach \a/\b in {e1/e2,e2/e3,e3/e4,e4/e5,e5/e6} \draw[seta] (\a) -- (\b);
 \end{tikzpicture}
-\caption{Etapas do procedimento experimental.}
+\caption{Etapas da metodologia.}
 \label{fig:procedimento}
 \end{figure}
 
-O ambiente de execução não tinha acesso ao repositório Maven Central. Por isso, jqwik 1.7.4 e PIT 1.18.2 foram compilados a partir do código-fonte das versões publicadas, e a suíte Java foi executada pelo JUnit Platform Console, com o PIT acionado pela mesma API que o \textit{plugin} Maven usa. O \texttt{pom.xml} do repositório declara as mesmas versões, de modo que o experimento pode ser repetido com \texttt{mvn}. O esforço de configuração (M14) considera os dois caminhos.
+\begin{enumerate}[itemsep=0pt, topsep=2pt]
+  \item \textbf{Especificação:} as 20 regras, as propriedades e as faixas dos geradores foram fixadas no \texttt{SPEC.md}, fonte única das duas implementações.
+  \item \textbf{Implementações:} a API foi implementada nos dois ecossistemas, e os 11 cenários compartilhados confirmaram a equivalência.
+  \item \textbf{Suítes:} as propriedades P1--P17 foram escritas em jqwik e fast-check e validadas contra as duas implementações; uma rodada piloto revelou duas lacunas da suíte forte (entradas nulas e nomes de tipo), corrigidas antes do experimento.
+  \item \textbf{Execuções:} cada execução rodou a suíte com medição de cobertura e, em seguida, a análise de mutação completa, gravando os relatórios brutos.
+  \item \textbf{Consolidação e classificação:} um \textit{script} consolidou os relatórios em uma linha por execução e uma por mutante, e os mutantes não detectados foram classificados.
+  \item \textbf{Análise:} as questões de pesquisa foram respondidas com estatística descritiva, testes de hipótese e figuras.
+\end{enumerate}
 
-\subsection{Análise dos dados}
+\subsection{Objetivos, questões e métricas (GQM)}
+\label{sec:gqm}
 
-O \ms{} de cada execução forma uma amostra de 30 valores por ecossistema. Como o PBT é aleatório e não há garantia de normalidade, a diferença entre ecossistemas foi testada com Mann-Whitney U bilateral \citep{mann1947test} a $\alpha = 0{,}05$, e o tamanho do efeito foi medido pela estatística $\hat{A}_{12}$ de Vargha-Delaney \citep{vargha2000a12}, seguindo a recomendação de \citet{arcuri2011guide} para algoritmos aleatórios em Engenharia de Software. $\hat{A}_{12}$ é a probabilidade de uma execução Java ter valor maior que uma Node.js; $0{,}5$ indica nenhuma diferença, e as faixas de magnitude são as de \citet{vargha2000a12}. O teste de Shapiro-Wilk foi usado apenas para descrever a distribuição. As hipóteses são:
+O estudo segue o modelo \textit{Goal-Question-Metric} \citep{basili1994gqm}: \textit{analisar} suítes PBT \textit{com o propósito de} compará-las \textit{com respeito à} efetividade medida por \ms{} \textit{do ponto de vista} do desenvolvedor \textit{no contexto de} duas implementações equivalentes de uma API REST. A Tabela~\ref{tab:gqm} liga cada objetivo específico às questões e métricas; a Tabela~\ref{tab:metricas} detalha as métricas.
 
-\begin{itemize}
-  \item $H_{0,1}$: o \ms{} das suítes PBT não difere entre Java e Node.js; $H_{1,1}$: difere.
-  \item $H_{0,2}$: o tempo da análise de mutação não difere entre os ecossistemas; $H_{1,2}$: difere.
-\end{itemize}
+\begin{table}[!htbp]
+\centering
+\caption{GQM: objetivos específicos, questões de pesquisa e métricas.}
+\label{tab:gqm}
+\small
+\begin{tabularx}{\textwidth}{@{}l Y l@{}}
+\toprule
+OE & Questão de pesquisa & Métricas \\
+\midrule
+OE1 & QP1: Quais regras puderam ser expressas como propriedades equivalentes, e com que oráculo? & M1, M2, M3 \\
+OE2 & QP2: Qual o \ms{} de cada suíte, e quanto a força do oráculo o altera? & M4, M5 \\
+OE2 & QP3: O número de tentativas por propriedade altera o \ms{}? & M5, M6 \\
+OE2 & QP4: O \ms{} difere entre os ecossistemas ($H_0$), com operadores padrão e harmonizados? & M5, M7 \\
+OE3 & QP5: Os mutantes cobertos pela suíte são também detectados? & M8 \\
+OE4 & QP6: Onde se concentram os mutantes não detectados, e por quê? & M9, M10 \\
+OE5 & QP7: Qual ecossistema exige mais tempo de execução e mais configuração? & M11, M12 \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-Os mutantes sobreviventes foram agrupados por localização e operador e classificados manualmente em três classes: \textbf{equivalente} (nenhuma entrada distingue o mutante do original), \textbf{propriedade fraca} (a regra é exercitada por uma propriedade, mas o oráculo não observa a diferença) e \textbf{regra sem propriedade} (a regra afetada não é verificada por nenhuma de P1--P8).
+\begin{table}[!htbp]
+\centering
+\caption{Métricas: definição e fonte.}
+\label{tab:metricas}
+\small
+\begin{tabularx}{\textwidth}{@{}l L{3.0cm} Y L{2.55cm}@{}}
+\toprule
+Id & Métrica & Definição & Fonte \\
+\midrule
+M1 & Regras cobertas & Regras verificadas por ao menos uma propriedade da suíte / 20 & \texttt{SPEC.md} \\
+M2 & Propriedades equivalentes & Propriedades com mesmo enunciado e mesmos geradores nos dois ecossistemas & código \\
+M3 & Tamanho das suítes & Linhas não vazias e não comentário de propriedades e geradores & código \\
+M4 & Contagens de mutantes & Gerados, mortos, \textit{timeout}, sobreviventes, sem cobertura e erros & PIT, StrykerJS \\
+M5 & \textit{Mutation score} & $MS = (K+T)/(K+T+S+N)$ (Equação~\ref{eq:ms}), nos recortes padrão e harmonizado & idem \\
+M6 & Mutantes instáveis & Mutantes detectados em parte, mas não em todas, as execuções de uma configuração & \texttt{mutants.csv} \\
+M7 & Teste de $H_0$ & Mann-Whitney U, $p$-valor corrigido por Holm, $\hat{A}_{12}$ e qui-quadrado por mutante & \texttt{runs.csv} \\
+M8 & Cobertura & Linhas e ramos cobertos e mutantes cobertos, por módulo & JaCoCo, Istanbul \\
+M9 & Mortes por propriedade & Proporção dos mutantes detectados que cada propriedade mata, e que só ela mata & \texttt{mutants.csv} \\
+M10 & Classe do não detectado & Entrada não gerada, regra sem propriedade, oráculo fraco ou equivalente & classificação \\
+M11 & Tempo & Tempo da análise de mutação, total e por mutante avaliado & \texttt{runs.csv} \\
+M12 & Tamanho da configuração & Arquivos de configuração e artefatos declarados para PBT, mutação e cobertura & repositório \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Ferramentas}
+
+A Tabela~\ref{tab:ferramentas} lista as ferramentas e versões. O código, a especificação, os \textit{scripts} e os dados brutos estão no pacote de replicação (Seção~\ref{sec:replicacao}).
+
+\begin{table}[!htbp]
+\centering
+\caption{Ferramentas e versões.}
+\label{tab:ferramentas}
+\small
+\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
+\toprule
+Papel & Java & Node.js \\
+\midrule
+Plataforma e camada REST & Java 17, Spring Boot 3.3.5 & Node.js 22.22, Express 5.3 \\
+Testes e PBT & JUnit Platform 1.9, jqwik 1.7.4 & Jest 30.5, fast-check 4.10.2 \\
+Mutação & PIT 1.18.2 + pitest-junit5-plugin 1.2.3 & StrykerJS 10.0 + jest-runner \\
+Cobertura & JaCoCo 0.8.12 & Istanbul (via Jest) \\
+\bottomrule
+\end{tabularx}
+\end{table}

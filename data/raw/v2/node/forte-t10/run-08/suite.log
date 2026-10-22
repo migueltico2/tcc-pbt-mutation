@@ -1,0 +1,14 @@
+---------------------|---------|----------|---------|---------|-------------------
+File                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------------|---------|----------|---------|---------|-------------------
+All files            |   99.38 |    98.48 |     100 |   99.38 |                   
+ calculadoraPreco.js |     100 |      100 |     100 |     100 |                   
+ modelos.js          |     100 |      100 |     100 |     100 |                   
+ servicoIngressos.js |   99.09 |    98.21 |     100 |   99.09 | 128               
+---------------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 7 passed, 7 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        0.619 s, estimated 1 s
+Ran all test suites.

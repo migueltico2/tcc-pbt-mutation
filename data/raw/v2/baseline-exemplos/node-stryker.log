@@ -1,0 +1,169 @@
+[32m18:51:51 (18444) INFO ProjectReader[39m Found 3 of 26 file(s) to be mutated.
+[32m18:51:51 (18444) INFO Instrumenter[39m Instrumented 3 source file(s) with 260 mutant(s)
+[32m18:51:51 (18444) INFO ConcurrencyTokenProvider[39m Creating 2 test runner process(es).
+[32m18:51:51 (18444) INFO BroadcastReporter[39m Detected that current console does not support the "progress" reporter, downgrading to "progress-append-only" reporter
+[32m18:51:52 (18444) INFO DryRunExecutor[39m Starting initial test run (jest test runner with "perTest" coverage analysis). This may take a while.
+[32m18:51:53 (18444) INFO DryRunExecutor[39m Initial test run succeeded. Ran 11 tests in 0 seconds (net 24 ms, overhead 646 ms).
+
+All tests/casos.test.js
+  ✓ casos de exemplo compartilhados R1 evento com capacidade invalida e recusado [line 34] (killed 23)
+  ✓ casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade [line 34] (killed 42)
+  ✓ casos de exemplo compartilhados R7 R8 itens e subtotal [line 34] (killed 71)
+  ✓ casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto [line 34] (killed 96)
+  ✓ casos de exemplo compartilhados R11 R13 cupom fixo limitado ao subtotal [line 34] (killed 88)
+  ✓ casos de exemplo compartilhados R12 cupom expirado, abaixo do minimo ou inexistente nao desconta [line 34] (killed 105)
+  ✓ casos de exemplo compartilhados R9 cupons invalidos sao recusados [line 34] (killed 48)
+  ✓ casos de exemplo compartilhados R14 R15 R16 confirmacao baixa disponibilidade de forma atomica [line 34] (killed 73)
+  ✓ casos de exemplo compartilhados R17 cancelar e expirar devolvem disponibilidade apenas se confirmada [line 34] (killed 74)
+  ✓ casos de exemplo compartilhados R18 R19 transicoes validas e estados finais [line 34] (killed 78)
+  ✓ casos de exemplo compartilhados R2 evento inativo nao aceita reservas, itens nem confirmacao [line 34] (killed 51)
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:65
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: "", ENCERRADO: 'ENCERRADO' });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:89
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: "" });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:15:67
+-   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: 'FIXO' });
++   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: "" });
+Ran all tests for this mutant.
+
+[Survived] UpdateOperator
+src/domain/servicoIngressos.js:29:5
+-       this.sequencia++;
++       this.sequencia--;
+Tests ran:
+    casos de exemplo compartilhados R1 evento com capacidade invalida e recusado
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+  and 7 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:37:9
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (false || nome.trim() === '' || capacidade <= 0) {
+Tests ran:
+    casos de exemplo compartilhados R1 evento com capacidade invalida e recusado
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+  and 7 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:40:43
+-       const evento = new Evento(this.novoId('EVT'), nome, data, local, capacidade);
++       const evento = new Evento(this.novoId(""), nome, data, local, capacidade);
+Tests ran:
+    casos de exemplo compartilhados R1 evento com capacidade invalida e recusado
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+  and 7 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:64:9
+-       if (precoCentavos < 0 || quantidadeTotal <= 0) {
++       if (precoCentavos <= 0 || quantidadeTotal <= 0) {
+Tests ran:
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+  and 6 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:69:11
+-         if (lote.eventoId === eventoId) {
++         if (true) {
+Tests ran:
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+    casos de exemplo compartilhados R14 R15 R16 confirmacao baixa disponibilidade de forma atomica
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:76:39
+-       const lote = new Lote(this.novoId('LOT'), eventoId, nome, precoCentavos, quantidadeTotal);
++       const lote = new Lote(this.novoId(""), eventoId, nome, precoCentavos, quantidadeTotal);
+Tests ran:
+    casos de exemplo compartilhados R3 R4 lotes respeitam dados validos e capacidade
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+  and 6 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:93:57
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor > 1 && valor <= 100 : valor > 0;
+Tests ran:
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+    casos de exemplo compartilhados R12 cupom expirado, abaixo do minimo ou inexistente nao desconta
+    casos de exemplo compartilhados R9 cupons invalidos sao recusados
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:95:9
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (false || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+    casos de exemplo compartilhados R11 R13 cupom fixo limitado ao subtotal
+    casos de exemplo compartilhados R12 cupom expirado, abaixo do minimo ou inexistente nao desconta
+  and 1 more test!
+
+
+[Survived] MethodExpression
+src/domain/servicoIngressos.js:95:27
+-       if (codigo == null || codigo.trim() === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
++       if (codigo == null || codigo === '' || !valorValido || minimoCentavos < 0 || !maximoValido) {
+Tests ran:
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+    casos de exemplo compartilhados R11 R13 cupom fixo limitado ao subtotal
+    casos de exemplo compartilhados R12 cupom expirado, abaixo do minimo ou inexistente nao desconta
+  and 1 more test!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:109:45
+-       const reserva = new Reserva(this.novoId('RES'), eventoId);
++       const reserva = new Reserva(this.novoId(""), eventoId);
+Tests ran:
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+    casos de exemplo compartilhados R11 R13 cupom fixo limitado ao subtotal
+  and 5 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:153:19
+-       const cupom = reserva.codigoCupom === null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
++       const cupom = false ? null : this.cupons.get(reserva.codigoCupom) ?? null;
+Tests ran:
+    casos de exemplo compartilhados R7 R8 itens e subtotal
+    casos de exemplo compartilhados R11 cupom percentual com arredondamento para baixo e teto
+    casos de exemplo compartilhados R11 R13 cupom fixo limitado ao subtotal
+  and 1 more test!
+
+
+Ran 5.07 tests per mutant on average.
+---------------------|------------------|----------|-----------|------------|----------|----------|
+                     | % Mutation score |          |           |            |          |          |
+File                 |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+All files            |  94.62 |   94.62 |      246 |         0 |         14 |        0 |        0 |
+ calculadoraPreco.js | 100.00 |  100.00 |       36 |         0 |          0 |        0 |        0 |
+ modelos.js          |  87.50 |   87.50 |       21 |         0 |          3 |        0 |        0 |
+ servicoIngressos.js |  94.50 |   94.50 |      189 |         0 |         11 |        0 |        0 |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m18:52:00 (18444) INFO JsonReporter[39m Your report can be found at: file:///home/claude/work/tcc-pbt-mutation/node-api/reports/mutation/examples.json
+[32m18:52:00 (18444) INFO MutationTestExecutor[39m Done in 9 seconds.

@@ -1,0 +1,13 @@
+ecossistema,suite,tentativas,instavel
+java,forte,10,56
+java,forte,100,20
+java,forte,1000,6
+java,fraca,10,23
+java,fraca,100,0
+java,fraca,1000,0
+node,forte,10,74
+node,forte,100,18
+node,forte,1000,2
+node,fraca,10,14
+node,fraca,100,4
+node,fraca,1000,1

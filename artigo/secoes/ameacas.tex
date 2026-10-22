@@ -1,34 +1,11 @@
 \section{Ameaças à Validade}
 
-As ameaças foram organizadas pelas quatro validades de \citet{wohlin2012experimentation}. A Tabela~\ref{tab:ameacas} resume cada uma, a mitigação adotada e o que poderia ser feito em trabalhos futuros; os parágrafos seguintes detalham as mais relevantes.
+As ameaças foram organizadas pelas quatro validades de \citet{wohlin2012experimentation}. Esta seção apresenta as principais; a lista completa, com a mitigação adotada e a mitigação futura de cada ameaça, está no Apêndice~\ref{ap:ameacas}.
 
-\begin{table}[!htbp]
-\centering
-\caption{Ameaças à validade, mitigações adotadas e mitigações futuras.}
-\label{tab:ameacas}
-\small
-\begin{tabularx}{\textwidth}{@{}l Y Y Y@{}}
-\toprule
-Validade & Ameaça & Mitigação adotada & Mitigação futura \\
-\midrule
-Conclusão & Variância nula do \ms{} no Java, o que gera empates no teste de postos & Tamanho de efeito $\hat{A}_{12}$, teste qui-quadrado por mutante e estatísticas descritivas completas & Variar o número de tentativas e a estratégia de casos de borda \\
-Conclusão & Tempo medido em máquina virtual compartilhada & 30 execuções sequenciais, mediana e $\hat{A}_{12}$ em vez de média & Repetir em máquina dedicada \\
-Interna & Implementações não equivalentes & Especificação única, 11 cenários compartilhados (125 passos) aprovados nos dois lados & Testes diferenciais gerados automaticamente entre as duas APIs \\
-Interna & Propriedades mais fortes em um lado & Mesmos enunciados, geradores e tentativas, mapeados 1:1 & Revisão das propriedades por um segundo pesquisador \\
-Interna & Ferramentas Java compiladas do código-fonte & Mesmas \textit{tags} das versões publicadas e \texttt{pom.xml} com as mesmas versões & Repetir via Maven com os binários publicados \\
-Construto & \textit{Mutation score} como medida de efetividade & Complementado por cobertura, análise por módulo e classificação manual & Usar defeitos reais injetados \\
-Construto & Conjuntos de operadores diferentes entre PIT e StrykerJS & Análise restrita às cinco categorias comuns & Operadores equivalentes definidos manualmente \\
-Construto & Mutantes equivalentes e classificação feita por uma pessoa & Regras de classificação explícitas e versionadas & Classificação independente com cálculo de concordância \\
-Externa & Um domínio pequeno e oito propriedades & Domínio com regras numéricas, de estado e de disponibilidade & Replicar em APIs de outros domínios e tamanhos \\
-Externa & Uma versão de cada ferramenta e propriedades no nível do domínio & Versões fixadas e documentadas & Incluir PBT via HTTP e outras bibliotecas \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\textbf{Validade de conclusão.} As 30 execuções de uma configuração reavaliam os mesmos mutantes com entradas aleatórias diferentes: medem a variação da geração aleatória, e não a variação entre programas. Por isso, os $p$-valores devem ser lidos junto com o $\hat{A}_{12}$ e com o teste por mutante distinto, que usa os mutantes como unidade; todos os $p$-valores foram corrigidos pelo método de Holm. O tempo foi medido em uma máquina virtual compartilhada, e a ordem aleatória das configurações em cada rodada distribui as variações de carga entre elas.
 
-\textbf{Validade de conclusão.} No Java, as 30 execuções produziram exatamente o mesmo \ms{}, o que reduz o teste de Mann-Whitney a uma comparação com empates em um dos grupos. A diferença, porém, não depende do teste: em todas as execuções o Node.js ficou acima do Java, o que o $\hat{A}_{12}$ igual a zero expressa diretamente. Essa significância vem da repetição de execuções quase idênticas, e não de uma amostra grande de mutantes diferentes: o teste qui-quadrado sobre os mutantes distintos das categorias comuns não indicou diferença ($p = 0{,}25$), o que reforça a leitura de que a diferença prática é pequena. O tempo foi medido em uma máquina virtual de 2 vCPUs; durante parte das primeiras execuções Java houve atividade concorrente leve na mesma máquina (escrita de código e instalação de pacotes), o que explica parte da dispersão do tempo Java e os poucos mutantes classificados como \textit{timeout} nessas execuções.
+\textbf{Validade interna.} A primeira ameaça é a equivalência entre as implementações, tratada pela especificação única escrita antes do código e pelos 11 cenários compartilhados aprovados nos dois lados. Diferenças próprias de cada linguagem permanecem: o Java devolve objetos que o PIT muta como valores de retorno, enquanto os status do JavaScript são textos que o StrykerJS muta; o recorte harmonizado existe para isolar esses efeitos. A segunda ameaça é a suíte forte ter sido escrita pelo mesmo pesquisador que conhece o código. Ela foi derivada regra a regra do \texttt{SPEC.md}, e os dois ajustes feitos após a rodada piloto estão declarados (Seção~\ref{sec:fluxo}). A terceira é a geração de entradas: o jqwik injeta casos de borda que dominam a amostra quando há poucas tentativas, o que faz parte do fator ecossistema mas limita a atribuição das diferenças à linguagem em si.
 
-\textbf{Validade interna.} A maior ameaça é a equivalência entre as implementações. Ela foi tratada com a especificação escrita antes do código e com os cenários compartilhados, mas há diferenças que são próprias de cada linguagem e que não podem ser eliminadas sem descaracterizar o ecossistema: o Java expõe dados por métodos de acesso (\textit{getters}), que o PIT muta, enquanto o JavaScript usa campos diretos; os status do JavaScript são textos que o StrykerJS muta, enquanto os \texttt{enum} do Java não são mutados pelo PIT. A análise ``sem construtores e acessores'' e a análise por categorias comuns existem para isolar esses efeitos. As bibliotecas de PBT também diferem por dentro: o jqwik informou que os casos de borda excediam o número de tentativas, o que torna sua geração muito mais repetitiva que a do fast-check. Isso faz parte do fator estudado (o ecossistema), mas limita a atribuição das diferenças à linguagem em si.
+\textbf{Validade de construto.} O \ms{} mede a detecção de defeitos artificiais, não de defeitos reais. Como as ferramentas geram conjuntos de mutantes diferentes \citep{kintis2018tools,monteiro2022tools}, o fator ecossistema mistura linguagem, biblioteca de PBT e ferramenta de mutação; o recorte harmonizado reduz, mas não elimina, a parte da ferramenta. A classificação dos mutantes não detectados combina critérios objetivos com julgamento manual por leitura do código, confirmado pelo autor, sem cálculo de concordância com um segundo classificador independente; a classe e a justificativa de cada mutante estão versionadas no repositório.
 
-\textbf{Validade de construto.} O \ms{} mede a capacidade de detectar defeitos artificiais, não defeitos reais. Como as ferramentas geram conjuntos de mutantes diferentes \citep{kintis2018tools,monteiro2022tools}, o fator ``ecossistema'' mistura linguagem e ferramenta, e o estudo não separa os dois efeitos. A classificação dos sobreviventes foi feita por uma pessoa, mas as regras estão codificadas e versionadas no repositório, o que permite revisá-las.
-
-\textbf{Validade externa.} A aplicação tem cerca de 300 linhas de domínio em cada linguagem e oito propriedades, e as propriedades verificam o domínio diretamente, sem passar pela camada HTTP. Os resultados não devem ser generalizados para APIs grandes, com persistência real ou com propriedades escritas em outro estilo (por exemplo, comparação com um modelo de referência completo).
+\textbf{Validade externa.} A aplicação tem cerca de 300 linhas de domínio em cada linguagem, e as propriedades verificam o domínio diretamente, sem passar pela camada HTTP nem por persistência real. Os resultados descrevem o comportamento das ferramentas e dos tipos de propriedade nesse domínio e não devem ser generalizados para APIs grandes sem replicação.

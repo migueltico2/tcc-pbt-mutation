@@ -20,23 +20,22 @@ jobs:
           cache: maven
       - name: Testes (exemplos + propriedades + REST/Spring)
         run: mvn -B test
-      - name: Mutação com PIT (plugin Maven)
-        run: mvn -B test-compile org.pitest:pitest-maven:mutationCoverage
-      - name: Resumo do PIT
+      - name: Mutação com PIT (plugin Maven), suíte fraca
         run: |
-          python3 - <<'EOF'
-          import collections, xml.etree.ElementTree as ET
-          r = ET.parse('target/pit-reports/mutations.xml').getroot()
-          c = collections.Counter(m.get('status') for m in r.iter('mutation'))
-          det = c['KILLED'] + c['TIMED_OUT']
-          val = det + c['SURVIVED'] + c['NO_COVERAGE']
-          print(dict(c), f"gerados={sum(c.values())}", f"mutation_score={100*det/val:.2f}%")
-          EOF
+          mvn -B test-compile org.pitest:pitest-maven:mutationCoverage
+          python3 ../scripts/resumo_pit.py target/pit-reports/mutations.xml fraca
+          mkdir -p ../pit-fraca && cp -r target/pit-reports/* ../pit-fraca/
+      - name: Mutação com PIT (plugin Maven), suíte forte
+        run: |
+          mvn -B test-compile org.pitest:pitest-maven:mutationCoverage -Psuite-forte
+          python3 ../scripts/resumo_pit.py target/pit-reports/mutations.xml forte
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pit-reports
-          path: java-api/target/pit-reports
+          path: |
+            pit-fraca
+            java-api/target/pit-reports
 
   node:
     runs-on: ubuntu-latest
@@ -53,5 +52,7 @@ jobs:
       - run: npm ci
       - name: Testes (exemplos + propriedades + REST)
         run: npm test
-      - name: Mutação com StrykerJS
+      - name: Mutação com StrykerJS, suíte fraca
         run: npx stryker run
+      - name: Mutação com StrykerJS, suíte forte
+        run: SUITE=forte npx stryker run

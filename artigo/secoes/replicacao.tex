@@ -1,0 +1,18 @@
+\section{Pacote de Replicação}
+\label{sec:replicacao}
+
+Todo o material do trabalho está no repositório \url{https://github.com/migueltico2/tcc-pbt-mutation}:
+
+{\sloppy
+\begin{itemize}
+  \item \texttt{SPEC.md}: as regras R1--R20, as propriedades P1--P17 e as faixas de todos os geradores;
+  \item \texttt{java-api/} e \texttt{node-api/}: as duas implementações, as suítes de propriedades (fraca e forte) e o executor dos 11 cenários compartilhados (\texttt{shared/casos-exemplo.json});
+  \item \texttt{scripts/}: o experimento fatorial (\texttt{experimento.sh}), a linha de base com exemplos e a consolidação dos relatórios (\texttt{consolidate.py});
+  \item \texttt{data/raw/v2/}: os relatórios brutos das 360 execuções (PIT XML e Stryker JSON, compactados), de cobertura e de tempo; \texttt{data/runs.csv} e \texttt{data/mutants.csv} com os dados consolidados;
+  \item \texttt{analysis/}: a análise estatística, as figuras, as tabelas de resultados e a classificação de cada mutante não detectado, com justificativa;
+  \item \texttt{artigo/}: o código-fonte deste artigo, com as macros numéricas geradas pela análise (\texttt{numeros.tex}) e a lista das referências dos trabalhos relacionados (\texttt{referencias/});
+  \item \texttt{.github/workflows/ci.yml}: a integração contínua, que executa os testes Java (\texttt{mvn test}, incluindo a camada Spring) e Node.js e a mutação com o PIT pelo \textit{plugin} Maven oficial e com o StrykerJS, nas duas suítes.
+\end{itemize}
+}
+
+O \texttt{README.md} descreve como executar cada etapa com Maven e npm. Os dados da primeira versão do experimento (60 execuções, só a suíte fraca com 100 tentativas) estão preservados no histórico do repositório; a configuração correspondente do experimento atual reproduz os mesmos valores no Java (50,0\% em todas as execuções) e a mesma faixa no Node.js (51,7\% a 52,5\%).

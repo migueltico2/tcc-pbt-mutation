@@ -1,22 +1,51 @@
-ecossistema,operador,total,detectados,por_execucao,mutation_score
-java,ConditionalsBoundaryMutator,390,120,13.0,30.76923076923077
-java,EmptyObjectReturnValsMutator,540,270,18.0,50.0
-java,MathMutator,300,120,10.0,40.0
-java,NullReturnValsMutator,600,300,20.0,50.0
-java,PrimitiveReturnsMutator,420,240,14.0,57.142857142857146
-java,RemoveConditionalMutator_EQUAL_ELSE,690,300,23.0,43.47826086956522
-java,RemoveConditionalMutator_ORDER_ELSE,390,270,13.0,69.23076923076923
-java,VoidMethodCallMutator,450,270,15.0,60.0
-node,ArithmeticOperator,180,90,6.0,50.0
-node,ArrayDeclaration,60,60,2.0,100.0
-node,AssignmentOperator,120,90,4.0,75.0
-node,BlockStatement,1800,1200,60.0,66.66666666666667
-node,BooleanLiteral,60,60,2.0,100.0
-node,CallExpression,390,240,13.0,61.53846153846154
-node,ConditionalExpression,2100,900,70.0,42.857142857142854
-node,EqualityOperator,1410,1014,47.0,71.91489361702128
-node,LogicalOperator,360,120,12.0,33.333333333333336
-node,MethodExpression,120,11,4.0,9.166666666666666
-node,ObjectLiteral,240,180,8.0,75.0
-node,StringLiteral,900,90,30.0,10.0
-node,UpdateOperator,30,0,1.0,0.0
+ecossistema,suite,operador,padrao,harmonizado,avaliacoes,detectados,mutation_score
+java,forte,ConditionalsBoundaryMutator,True,limite relacional,390,257,65.8974358974359
+java,forte,EmptyObjectReturnValsMutator,True,,540,450,83.33333333333333
+java,forte,MathMutator,True,aritmético,300,258,86.0
+java,forte,NegateConditionalsMutator,False,negação relacional,1080,1080,100.0
+java,forte,NullReturnValsMutator,True,,600,360,60.0
+java,forte,PrimitiveReturnsMutator,True,,420,420,100.0
+java,forte,RemoveConditionalMutator_EQUAL_ELSE,True,condição forçada,690,608,88.1159420289855
+java,forte,RemoveConditionalMutator_EQUAL_IF,False,condição forçada,690,679,98.40579710144928
+java,forte,RemoveConditionalMutator_ORDER_ELSE,True,condição forçada,390,389,99.74358974358974
+java,forte,RemoveConditionalMutator_ORDER_IF,False,condição forçada,390,320,82.05128205128206
+java,forte,VoidMethodCallMutator,True,,450,450,100.0
+java,fraca,ConditionalsBoundaryMutator,True,limite relacional,390,120,30.76923076923077
+java,fraca,EmptyObjectReturnValsMutator,True,,540,270,50.0
+java,fraca,MathMutator,True,aritmético,300,120,40.0
+java,fraca,NegateConditionalsMutator,False,negação relacional,1080,990,91.66666666666667
+java,fraca,NullReturnValsMutator,True,,600,300,50.0
+java,fraca,PrimitiveReturnsMutator,True,,420,240,57.142857142857146
+java,fraca,RemoveConditionalMutator_EQUAL_ELSE,True,condição forçada,690,300,43.47826086956522
+java,fraca,RemoveConditionalMutator_EQUAL_IF,False,condição forçada,690,420,60.869565217391305
+java,fraca,RemoveConditionalMutator_ORDER_ELSE,True,condição forçada,390,270,69.23076923076923
+java,fraca,RemoveConditionalMutator_ORDER_IF,False,condição forçada,390,150,38.46153846153846
+java,fraca,VoidMethodCallMutator,True,,450,270,60.0
+node,forte,ArithmeticOperator,True,aritmético,180,179,99.44444444444444
+node,forte,ArrayDeclaration,True,,60,60,100.0
+node,forte,AssignmentOperator,True,aritmético,120,120,100.0
+node,forte,BlockStatement,True,,1800,1800,100.0
+node,forte,BooleanLiteral,True,,60,60,100.0
+node,forte,CallExpression,True,,390,390,100.0
+node,forte,ConditionalExpression,True,condição forçada,2100,2027,96.52380952380952
+node,forte,EqualityOperator,True,limite relacional,390,277,71.02564102564102
+node,forte,EqualityOperator,True,negação relacional,1020,1020,100.0
+node,forte,LogicalOperator,True,,360,358,99.44444444444444
+node,forte,MethodExpression,True,,120,120,100.0
+node,forte,ObjectLiteral,True,,240,240,100.0
+node,forte,StringLiteral,True,,900,720,80.0
+node,forte,UpdateOperator,True,incremento,30,0,0.0
+node,fraca,ArithmeticOperator,True,aritmético,180,90,50.0
+node,fraca,ArrayDeclaration,True,,60,60,100.0
+node,fraca,AssignmentOperator,True,aritmético,120,90,75.0
+node,fraca,BlockStatement,True,,1800,1200,66.66666666666667
+node,fraca,BooleanLiteral,True,,60,60,100.0
+node,fraca,CallExpression,True,,390,240,61.53846153846154
+node,fraca,ConditionalExpression,True,condição forçada,2100,900,42.857142857142854
+node,fraca,EqualityOperator,True,limite relacional,390,113,28.974358974358974
+node,fraca,EqualityOperator,True,negação relacional,1020,900,88.23529411764706
+node,fraca,LogicalOperator,True,,360,120,33.333333333333336
+node,fraca,MethodExpression,True,,120,8,6.666666666666667
+node,fraca,ObjectLiteral,True,,240,180,75.0
+node,fraca,StringLiteral,True,,900,90,10.0
+node,fraca,UpdateOperator,True,incremento,30,0,0.0

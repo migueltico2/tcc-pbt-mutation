@@ -1,36 +1,32 @@
 \section{Trabalhos Relacionados}
 
-Os trabalhos abaixo foram escolhidos por avaliarem empiricamente PBT, ferramentas de mutação ou a combinação de ambos. A Tabela~\ref{tab:relacionados} resume como cada um se posiciona em relação a este estudo.
+Foram selecionados seis estudos empíricos de Engenharia de Software que avaliam PBT, a relação entre cobertura e \MT{} ou ferramentas de mutação; quatro deles foram publicados entre 2023 e 2025. Para cada um, apresentam-se objetivo e método, os resultados relevantes e a relação com este trabalho. A Tabela~\ref{tab:relacionados} resume o posicionamento.
 
-\textbf{\citet{ravi2025pbt}} analisaram 426 projetos Python que usam Hypothesis, definiram 12 categorias de propriedades e avaliaram por mutação as suítes de 40 projetos. Cada teste de propriedade encontrou, em média, cerca de 50 vezes mais mutações que um teste unitário, e 76\% das mutações encontradas apareceram nas primeiras 20 entradas geradas. É o trabalho mais próximo deste, mas observa um único ecossistema.
+\textbf{\citet{ravi2025pbt}} avaliaram a efetividade de PBT em Python. Analisaram 426 programas que usam a biblioteca Hypothesis, definiram 12 categorias de propriedade e aplicaram \MT{} às suítes de 40 projetos. Cada teste de propriedade encontrou, em média, cerca de 50 vezes mais mutações que um teste unitário; testes que verificam exceções, pertinência e tipos foram os mais efetivos; e 76\% das mutações encontradas apareceram nas primeiras 20 entradas geradas. É o trabalho mais próximo deste. Aqui, a mesma pergunta é feita em dois ecossistemas, com propriedades controladas, e o efeito do número de entradas é medido diretamente (10, 100 e 1000 tentativas).
 
-\textbf{\citet{goldstein2024pbt}} entrevistaram 30 usuários experientes de PBT na Jane Street e descreveram as dificuldades de projetar boas propriedades e geradores. \textbf{\citet{corgozinho2023pbt}} mineraram projetos Python com Hypothesis e mostraram que poucos padrões de propriedade concentram a maior parte do uso. Ambos orientaram a escolha de propriedades de formatos comuns (limites, comutatividade, neutralidade e modelo de transições) neste estudo.
+\textbf{\citet{goldstein2024pbt}} investigaram como o PBT é usado na prática por meio de 30 entrevistas semiestruturadas na Jane Street, empresa que usa PBT em OCaml, com análise temática. Os participantes concentraram o uso em poucos padrões de alto retorno, como comparação com um modelo de referência e propriedades de ida e volta, e relataram dificuldade em escrever geradores e em avaliar a efetividade das suítes. Este trabalho responde a essa dificuldade de forma quantitativa: mede, por mutação, quanto propriedades com modelo de referência detectam a mais que propriedades de limite.
 
-\textbf{\citet{aichernig2019pbt}} derivaram propriedades e geradores de modelos de regras de negócio para testar um serviço web industrial com FsCheck, mostrando que regras de negócio são uma base viável para propriedades de APIs. Aqui as regras vêm de uma especificação textual e não de um modelo formal.
+\textbf{\citet{corgozinho2023pbt}} caracterizaram como desenvolvedores implementam propriedades, classificando 86 testes de propriedade de 30 repositórios Python. Propriedades de ida e volta (37,2\%) e de oráculo (33,7\%) somaram 70,9\% dos testes. As categorias catalogadas por esse estudo orientaram a escolha das propriedades da suíte fraca deste trabalho, cuja efetividade é agora medida.
 
-\textbf{\citet{bartocci2023pbmt}} propuseram o \textit{Property-Based Mutation Testing}, que interpreta cada mutante em relação à propriedade que ele viola. Este trabalho adota essa leitura ao classificar sobreviventes por regra e por propriedade, embora use as ferramentas de propósito geral PIT e StrykerJS.
+\textbf{\citet{jain2023gap}} propuseram a ``lacuna de oráculo'', a diferença entre cobertura e \ms{}, e a estudaram em 45 projetos Java, em arquivos com asserções removidas e em código de criptomoedas. Sobre o código coberto, cobertura e \ms{} tiveram correlação fraca (0,21), e remover asserções ampliou a lacuna. A QP5 deste trabalho mede essa lacuna em PBT e mostra como ela se fecha quando o oráculo das propriedades fica mais forte.
 
-\textbf{\citet{monteiro2022tools}} e \textbf{\citet{kintis2018tools}} compararam ferramentas de mutação para Java e mostraram que a ferramenta altera o resultado: o PIT gerou mais mutantes que o Major, e a vantagem se inverteu ao excluir os possivelmente equivalentes \citep{monteiro2022tools}. \textbf{\citet{laurent2017pit}} mostraram que o conjunto padrão do PIT é restrito. Esses resultados motivam a análise por categorias comuns de operadores.
-
-\textbf{\citet{beller2021mutation}} e \textbf{\citet{sanchez2024mutation}} estudaram a adoção industrial do \MT{}: mutantes precisam ser acionáveis, e o esforço de configuração é uma barreira. Isso justifica medir o custo de execução e registrar o esforço de configuração (QP7).
+\textbf{\citet{kintis2018tools}} compararam quatro ferramentas de mutação para Java (PIT, muJava, Major e PITRV) com análise manual dos mutantes e com defeitos reais. A efetividade variou muito entre as ferramentas, e nenhuma subsumiu as demais. \textbf{\citet{monteiro2022tools}} compararam PIT e Major: o PIT gerou significativamente mais mutantes, com desempenho um pouco melhor, mas o Major superou o PIT quando os mutantes possivelmente equivalentes foram excluídos. Esses resultados motivam o recorte harmonizado de operadores deste trabalho, que estende a comparação de ferramentas ao par PIT/StrykerJS, entre linguagens.
 
 \begin{table}[!htbp]
 \centering
 \caption{Posicionamento dos trabalhos relacionados.}
 \label{tab:relacionados}
 \small
-\begin{tabularx}{\textwidth}{@{}L{3.6cm} Y c c c@{}}
+\begin{tabularx}{\textwidth}{@{}L{3.4cm} Y c c c@{}}
 \toprule
-Trabalho & Técnica e linguagem & PBT & Mutação & Compara ecossistemas \\
+Trabalho & Método e linguagem & PBT & Mutação & Compara ecossistemas \\
 \midrule
-\citet{ravi2025pbt} & PBT, Python (Hypothesis) & sim & sim & não \\
-\citet{goldstein2024pbt} & PBT, OCaml (entrevistas) & sim & não & não \\
-\citet{corgozinho2023pbt} & PBT, Python (mineração) & sim & não & não \\
-\citet{aichernig2019pbt} & PBT de serviços web, C\# & sim & não & não \\
-\citet{bartocci2023pbmt} & Mutação por propriedade, Simulink & parcial & sim & não \\
-\citet{monteiro2022tools} & PIT $\times$ Major, Java & não & sim & não \\
-\citet{kintis2018tools} & Quatro ferramentas, Java & não & sim & não \\
-\textbf{Este trabalho} & PBT, Java (jqwik) e Node.js (fast-check) & sim & sim & sim \\
+\citet{ravi2025pbt} & Mineração e mutação, Python & sim & sim & não \\
+\citet{goldstein2024pbt} & Entrevistas, OCaml & sim & não & não \\
+\citet{corgozinho2023pbt} & Mineração, Python & sim & não & não \\
+\citet{jain2023gap} & Cobertura $\times$ mutação, Java & não & sim & não \\
+\citet{kintis2018tools}; \citet{monteiro2022tools} & Comparação de ferramentas, Java & não & sim & não \\
+\textbf{Este trabalho} & Experimento, Java e Node.js & sim & sim & sim \\
 \bottomrule
 \end{tabularx}
 \end{table}

@@ -1,17 +1,33 @@
-ecossistema,modulo,mutantes,detectados,sem_cobertura,mutantes_por_execucao,mutation_score,cobertura_mutantes
-java,Cupons,900,420,0,30.0,46.666666666666664,100.0
-java,Disponibilidade,330,210,0,11.0,63.63636363636363,100.0
-java,Eventos,300,120,60,10.0,40.0,80.0
-java,Infraestrutura,60,30,0,2.0,50.0,100.0
-java,Lotes,360,120,0,12.0,33.333333333333336,100.0
-java,Modelos (construtores e acessores),930,510,150,31.0,54.83870967741935,83.87096774193549
-java,Reservas,540,240,0,18.0,44.44444444444444,100.0
-java,Status,360,240,0,12.0,66.66666666666667,100.0
-node,Cupons,2340,1025,60,78.0,43.8034188034188,97.43589743589743
-node,Disponibilidade,750,570,60,25.0,76.0,92.0
-node,Eventos,960,330,210,32.0,34.375,78.125
-node,Infraestrutura,90,60,0,3.0,66.66666666666667,100.0
-node,Lotes,990,330,180,33.0,33.333333333333336,81.81818181818181
-node,Modelos (construtores e acessores),660,300,0,22.0,45.45454545454545,100.0
-node,Reservas,1200,660,180,40.0,55.0,85.0
-node,Status,780,780,0,26.0,100.0,100.0
+ecossistema,suite,modulo,avaliacoes,detectados,sem_cobertura,mutation_score,cobertura_mutantes
+java,forte,Cupons,900,701,0,77.88888888888889,100.0
+java,forte,Disponibilidade,330,300,0,90.9090909090909,100.0
+java,forte,Eventos,300,249,0,83.0,100.0
+java,forte,Infraestrutura,60,30,0,50.0,100.0
+java,forte,Lotes,360,356,0,98.88888888888889,100.0
+java,forte,Modelos (construtores e acessores),930,840,90,90.3225806451613,90.3225806451613
+java,forte,Reservas,540,476,0,88.14814814814815,100.0
+java,forte,Status,360,240,0,66.66666666666667,100.0
+java,fraca,Cupons,900,420,0,46.666666666666664,100.0
+java,fraca,Disponibilidade,330,210,0,63.63636363636363,100.0
+java,fraca,Eventos,300,120,60,40.0,80.0
+java,fraca,Infraestrutura,60,30,0,50.0,100.0
+java,fraca,Lotes,360,120,0,33.333333333333336,100.0
+java,fraca,Modelos (construtores e acessores),930,510,150,54.83870967741935,83.87096774193549
+java,fraca,Reservas,540,240,0,44.44444444444444,100.0
+java,fraca,Status,360,240,0,66.66666666666667,100.0
+node,forte,Cupons,2340,2203,0,94.14529914529915,100.0
+node,forte,Disponibilidade,750,748,0,99.73333333333333,100.0
+node,forte,Eventos,960,913,0,95.10416666666667,100.0
+node,forte,Infraestrutura,90,60,0,66.66666666666667,100.0
+node,forte,Lotes,990,958,0,96.76767676767676,100.0
+node,forte,Modelos (construtores e acessores),660,570,0,86.36363636363636,100.0
+node,forte,Reservas,1200,1139,0,94.91666666666667,100.0
+node,forte,Status,780,780,0,100.0,100.0
+node,fraca,Cupons,2340,1021,60,43.63247863247863,97.43589743589743
+node,fraca,Disponibilidade,750,570,60,76.0,92.0
+node,fraca,Eventos,960,330,210,34.375,78.125
+node,fraca,Infraestrutura,90,60,0,66.66666666666667,100.0
+node,fraca,Lotes,990,330,180,33.333333333333336,81.81818181818181
+node,fraca,Modelos (construtores e acessores),660,300,0,45.45454545454545,100.0
+node,fraca,Reservas,1200,660,180,55.0,85.0
+node,fraca,Status,780,780,0,100.0,100.0

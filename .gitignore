@@ -13,3 +13,4 @@ artigo/*.out
 __pycache__/
 artigo/*.fdb_latexmk
 artigo/*.fls
+scripts/pit-runner/out/

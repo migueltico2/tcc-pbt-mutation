@@ -1,0 +1,181 @@
+[32m15:59:21 (18263) INFO ProjectReader[39m Found 3 of 25 file(s) to be mutated.
+[32m15:59:21 (18263) INFO Instrumenter[39m Instrumented 3 source file(s) with 260 mutant(s)
+[32m15:59:21 (18263) INFO ConcurrencyTokenProvider[39m Creating 2 test runner process(es).
+[32m15:59:22 (18263) INFO BroadcastReporter[39m Detected that current console does not support the "progress" reporter, downgrading to "progress-append-only" reporter
+[32m15:59:22 (18263) INFO DryRunExecutor[39m Starting initial test run (jest test runner with "perTest" coverage analysis). This may take a while.
+[32m15:59:24 (18263) INFO DryRunExecutor[39m Initial test run succeeded. Ran 17 tests in 1 second (net 231 ms, overhead 1026 ms).
+Mutation testing 14% (elapsed: <1m, remaining: ~1m) 49/260 tested (3 survived, 0 timed out)
+Mutation testing 33% (elapsed: <1m, remaining: <1m) 83/260 tested (5 survived, 0 timed out)
+Mutation testing 49% (elapsed: <1m, remaining: <1m) 122/260 tested (7 survived, 0 timed out)
+Mutation testing 58% (elapsed: <1m, remaining: <1m) 159/260 tested (9 survived, 0 timed out)
+Mutation testing 72% (elapsed: <1m, remaining: <1m) 195/260 tested (10 survived, 0 timed out)
+Mutation testing 81% (elapsed: ~1m, remaining: <1m) 229/260 tested (10 survived, 0 timed out)
+Mutation testing 95% (elapsed: ~1m, remaining: <1m) 253/260 tested (12 survived, 0 timed out)
+
+All tests
+  fortes
+    cadastro.prop.test.js
+      ✓ forte: cadastro P10 validacao de evento [line 8] (killed 26)
+      ✓ forte: cadastro P11 validacao de lote e capacidade [line 30] (killed 45)
+      ✓ forte: cadastro P12 validacao de cupom [line 64] (killed 47)
+    estoque.prop.test.js
+      ✓ forte: estoque P17 modelo de estoque [line 13] (killed 93)
+    preco.prop.test.js
+      ✓ forte: preco P9 oraculo de preco [line 7] (killed 111)
+    reservas.prop.test.js
+      ✓ forte: reservas P13 itens da reserva [line 17] (killed 71)
+      ✓ forte: reservas P14 evento inativo e reserva vazia [line 58] (killed 64)
+      ✓ forte: reservas P15 cupom so em reserva criada [line 109] (killed 98)
+      ✓ forte: reservas P16 entidade inexistente [line 138] (killed 54)
+  disponibilidade.prop.test.js
+    ✓ disponibilidade P5 disponibilidade nao negativa [line 41] (killed 47)
+    ✓ disponibilidade P6 reducao correta [line 55] (killed 49)
+    ✓ disponibilidade P7 cancelamento restaura [line 67] (killed 63)
+  preco.prop.test.js
+    ✓ preco P1 total nao negativo [line 9] (killed 75)
+    ✓ preco P2 desconto limitado [line 26] (killed 76)
+    ✓ preco P3 comutatividade do subtotal [line 40] (killed 49)
+    ✓ preco P4 cupom invalido neutro [line 56] (killed 79)
+  status.prop.test.js
+    ✓ status P8 transicoes validas [line 28] (killed 67)
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:21:7
+-     if (hoje > cupom.validoAte) {
++     if (hoje >= cupom.validoAte) {
+Tests ran:
+    forte: reservas P15 cupom so em reserva criada
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+  and 2 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/calculadoraPreco.js:24:7
+-     if (sub < cupom.minimoCentavos) {
++     if (sub <= cupom.minimoCentavos) {
+Tests ran:
+    forte: reservas P15 cupom so em reserva criada
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:65
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: "", ENCERRADO: 'ENCERRADO' });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:5:89
+-   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: 'ENCERRADO' });
++   const StatusEvento = Object.freeze({ ATIVO: 'ATIVO', CANCELADO: 'CANCELADO', ENCERRADO: "" });
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/domain/modelos.js:15:67
+-   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: 'FIXO' });
++   const TipoCupom = Object.freeze({ PERCENTUAL: 'PERCENTUAL', FIXO: "" });
+Ran all tests for this mutant.
+
+[Survived] UpdateOperator
+src/domain/servicoIngressos.js:29:5
+-       this.sequencia++;
++       this.sequencia--;
+Tests ran:
+    forte: reservas P13 itens da reserva
+    forte: reservas P14 evento inativo e reserva vazia
+    forte: reservas P15 cupom so em reserva criada
+  and 13 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:37:47
+-       if (nome == null || nome.trim() === '' || capacidade <= 0) {
++       if (nome == null || nome.trim() === '' || capacidade < 0) {
+Tests ran:
+    forte: reservas P13 itens da reserva
+    forte: reservas P14 evento inativo e reserva vazia
+    forte: reservas P15 cupom so em reserva criada
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:40:43
+-       const evento = new Evento(this.novoId('EVT'), nome, data, local, capacidade);
++       const evento = new Evento(this.novoId(""), nome, data, local, capacidade);
+Tests ran:
+    forte: reservas P13 itens da reserva
+    forte: reservas P14 evento inativo e reserva vazia
+    forte: reservas P15 cupom so em reserva criada
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:76:39
+-       const lote = new Lote(this.novoId('LOT'), eventoId, nome, precoCentavos, quantidadeTotal);
++       const lote = new Lote(this.novoId(""), eventoId, nome, precoCentavos, quantidadeTotal);
+Tests ran:
+    forte: reservas P13 itens da reserva
+    forte: reservas P14 evento inativo e reserva vazia
+    forte: reservas P15 cupom so em reserva criada
+  and 12 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:93:86
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : true;
+Tests ran:
+    forte: reservas P15 cupom so em reserva criada
+    forte: cadastro P12 validacao de cupom
+    preco P1 total nao negativo
+  and 3 more tests!
+
+
+[Survived] EqualityOperator
+src/domain/servicoIngressos.js:93:86
+-       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor > 0;
++       const valorValido = tipo === TipoCupom.PERCENTUAL ? valor >= 1 && valor <= 100 : valor >= 0;
+Tests ran:
+    forte: reservas P15 cupom so em reserva criada
+    forte: cadastro P12 validacao de cupom
+    preco P1 total nao negativo
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/domain/servicoIngressos.js:109:45
+-       const reserva = new Reserva(this.novoId('RES'), eventoId);
++       const reserva = new Reserva(this.novoId(""), eventoId);
+Tests ran:
+    forte: reservas P13 itens da reserva
+    forte: reservas P14 evento inativo e reserva vazia
+    forte: reservas P15 cupom so em reserva criada
+  and 11 more tests!
+
+
+[Survived] ConditionalExpression
+src/domain/servicoIngressos.js:153:19
+-       const cupom = reserva.codigoCupom === null ? null : this.cupons.get(reserva.codigoCupom) ?? null;
++       const cupom = false ? null : this.cupons.get(reserva.codigoCupom) ?? null;
+Tests ran:
+    forte: reservas P15 cupom so em reserva criada
+    preco P1 total nao negativo
+    preco P2 desconto limitado
+  and 3 more tests!
+
+
+Ran 8.76 tests per mutant on average.
+---------------------|------------------|----------|-----------|------------|----------|----------|
+                     | % Mutation score |          |           |            |          |          |
+File                 |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+All files            |  94.98 |   94.98 |      246 |         0 |         13 |        0 |        1 |
+ calculadoraPreco.js |  94.44 |   94.44 |       34 |         0 |          2 |        0 |        0 |
+ modelos.js          |  86.96 |   86.96 |       20 |         0 |          3 |        0 |        1 |
+ servicoIngressos.js |  96.00 |   96.00 |      192 |         0 |          8 |        0 |        0 |
+---------------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m16:00:37 (18263) INFO JsonReporter[39m Your report can be found at: file:///home/claude/work/tcc-pbt-mutation/node-api/reports/mutation/mutation.json
+[32m16:00:37 (18263) INFO MutationTestExecutor[39m Done in 1 minute and 15 seconds.

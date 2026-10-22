@@ -5,31 +5,41 @@ em Propriedades em APIs REST Java/Spring Boot e Node.js/Express por meio de Muta
 (Miguel Vieira — Engenharia de Software, PUC Minas, 2026).
 
 Duas implementações equivalentes de uma API de eventos e reservas de ingressos recebem as mesmas
-oito propriedades de negócio (P1–P8), escritas com **jqwik** (Java) e **fast-check** (Node.js), e são
-avaliadas por **PIT** e **StrykerJS** em 30 execuções por ecossistema.
+propriedades de negócio, escritas com **jqwik** (Java) e **fast-check** (Node.js), e são avaliadas por
+**PIT** e **StrykerJS**. O experimento é fatorial:
+
+| Fator | Níveis |
+| --- | --- |
+| Ecossistema | Java (jqwik + PIT), Node.js (fast-check + StrykerJS) |
+| Suíte de propriedades | fraca (P1–P8, do TCC I), forte (P1–P17, com oráculos exatos) |
+| Tentativas por propriedade | 10, 100, 1000 |
+| Operadores de mutação (recorte) | padrão de cada ferramenta, harmonizado entre as duas |
+| Repetições | 30 por configuração (360 execuções) |
+
+[![CI](https://github.com/migueltico2/tcc-pbt-mutation/actions/workflows/ci.yml/badge.svg)](https://github.com/migueltico2/tcc-pbt-mutation/actions/workflows/ci.yml)
 
 ## Estrutura
 
 ```
-SPEC.md                    regras R1–R20, propriedades P1–P8 e faixas dos geradores
-shared/casos-exemplo.json  11 cenários de exemplo executados pelas duas APIs (equivalência)
+SPEC.md                    regras R1–R20, propriedades P1–P17 e faixas dos geradores
+shared/casos-exemplo.json  11 cenários de exemplo executados pelas duas APIs (equivalência e linha de base)
 java-api/                  Spring Boot 3.3 + jqwik 1.7.4 + PIT 1.18.2 + JaCoCo 0.8.12 (pom.xml)
   src/main/.../domain/     regras de negócio (alvo da mutação)
   src/main/.../web/        controladores REST finos
-  src/test/.../properties/ P1–P8 em jqwik
+  src/test/.../properties/ P1–P8 (Propriedades*Test) e P9–P17 (PropriedadesForte*Test)
   src/test/.../examples/   executor dos casos compartilhados
 node-api/                  Express 5 + fast-check 4 + Jest 30 + StrykerJS 10
   src/domain/              regras de negócio (alvo da mutação)
   src/web/                 rotas REST finas
-  test/properties/         P1–P8 em fast-check
+  test/properties/         P1–P8; test/properties/fortes/ P9–P17
   test/examples/           executor dos casos compartilhados
-scripts/                   coleta (run_java.sh, run_node.sh) e consolidação (consolidate.py)
-data/raw/                  relatórios brutos de cada execução (PIT XML, Stryker JSON, cobertura, tempos)
+scripts/                   experimento.sh (fatorial), run_baseline_examples.sh, consolidate.py
+data/raw/v2/               relatórios brutos de cada execução (PIT XML e Stryker JSON compactados, cobertura, tempos)
 data/runs.csv              uma linha por execução
 data/mutants.csv           uma linha por mutante por execução
-analysis/                  analise.py, tabelas (resultados/) e figuras (figuras/)
+analysis/                  analise.py, classificar_sobreviventes.py, tabelas (resultados/) e figuras (figuras/)
 artigo/                    texto do TCC em LaTeX
-docs/diario.md             registro do esforço de configuração
+docs/diario.md             registro da configuração do ambiente
 ```
 
 ## Como reproduzir
@@ -38,36 +48,40 @@ docs/diario.md             registro do esforço de configuração
 
 ```bash
 cd node-api
-npm install
-npm test                      # exemplos compartilhados + propriedades + REST
-npm run test:properties       # só P1–P8
-npx stryker run               # mutação (relatório em reports/mutation)
-npm start                     # API em http://localhost:3000
+npm ci
+npm test                                           # exemplos + propriedades (fraca e forte) + REST
+npm run test:properties                            # só a suíte fraca (P1–P8)
+SUITE=forte npm run test:properties                # suíte forte (P1–P17)
+SUITE=forte PBT_TENTATIVAS=1000 npx stryker run    # mutação com a suíte forte e 1000 tentativas
+npm start                                          # API em http://localhost:3000
 ```
 
 ### Java (com Maven)
 
 ```bash
 cd java-api
-mvn test                                                   # exemplos + propriedades + REST
-mvn test-compile org.pitest:pitest-maven:mutationCoverage  # mutação (target/pit-reports)
-mvn spring-boot:run                                        # API em http://localhost:8080
+mvn test                                                                  # exemplos + propriedades + REST
+mvn test-compile org.pitest:pitest-maven:mutationCoverage                 # mutação, suíte fraca
+mvn test-compile org.pitest:pitest-maven:mutationCoverage -Psuite-forte   # mutação, suíte forte
+mvn test -Djqwik.tries.default=1000                                        # outro número de tentativas
+mvn spring-boot:run                                                       # API em http://localhost:8080
 ```
 
-### Experimento completo (30 execuções) e análise
+### Experimento completo e análise
 
 ```bash
-scripts/run_java.sh 30      # requer as ferramentas de scripts/java_local_env.sh (ver nota abaixo)
-scripts/run_node.sh 30
+scripts/experimento.sh 30          # 30 rodadas × 12 configurações (retomável: pula execuções concluídas)
+scripts/run_baseline_examples.sh   # linha de base com os 11 cenários de exemplo
 python3 scripts/consolidate.py
 python3 analysis/analise.py
+python3 analysis/classificar_sobreviventes.py
 ```
 
-**Nota sobre o ambiente do experimento.** As 30 execuções foram feitas em uma máquina sem acesso ao
+**Nota sobre o ambiente do experimento.** As execuções foram feitas em uma máquina sem acesso ao
 Maven Central. Por isso, jqwik 1.7.4, PIT 1.18.2 e pitest-junit5-plugin 1.2.3 foram compilados a partir
-do código-fonte das tags publicadas, e o PIT foi acionado por `scripts/pit-runner/PitRunner.java`,
-que usa a mesma API do plugin Maven. O `pom.xml` declara exatamente essas versões. Detalhes em
-`docs/diario.md`.
+do código-fonte das tags publicadas (ver `scripts/java_local_env.sh`), e o PIT foi acionado por
+`scripts/pit-runner/PitRunner.java`, que usa a mesma API do plugin Maven. A integração contínua
+(`.github/workflows/ci.yml`) roda o PIT pelo plugin Maven oficial e reproduz os mesmos resultados.
 
 ## Rotas REST (iguais nas duas APIs)
 

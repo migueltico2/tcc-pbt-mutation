@@ -15,6 +15,9 @@ import java.util.List;
  * usado apenas no ambiente sem acesso ao Maven Central.
  *
  * Uso: java PitRunner <classpath-do-projeto> <targetClasses> <targetTests> <reportDir> <sourceDir>
+ * targetTests aceita vários globs separados por vírgula. Propriedades de sistema opcionais:
+ * pit.mutators (lista separada por vírgula, padrão DEFAULTS), pit.jvmArgs (argumentos das JVMs
+ * auxiliares, separados por espaço; usado para passar -Djqwik.tries.default) e pit.threads.
  */
 public class PitRunner {
 
@@ -22,10 +25,18 @@ public class PitRunner {
         ReportOptions o = new ReportOptions();
         o.setClassPathElements(Arrays.asList(args[0].split(File.pathSeparator)));
         o.setTargetClasses(List.of(args[1]));
-        o.setTargetTests(List.of(new Glob(args[2])));
+        List<java.util.function.Predicate<String>> testes = new java.util.ArrayList<>();
+        for (String g : args[2].split(",")) {
+            testes.add(new Glob(g.trim()));
+        }
+        o.setTargetTests(testes);
         o.setReportDir(args[3]);
         o.setSourceDirs(List.of(Path.of(args[4])));
-        o.setMutators(List.of("DEFAULTS"));
+        o.setMutators(Arrays.asList(System.getProperty("pit.mutators", "DEFAULTS").split(",")));
+        String jvmArgs = System.getProperty("pit.jvmArgs", "").trim();
+        if (!jvmArgs.isEmpty()) {
+            o.addChildJVMArgs(Arrays.asList(jvmArgs.split(" ")));
+        }
         o.addOutputFormats(List.of("XML", "CSV"));
         o.setFullMutationMatrix(true);
         o.setShouldCreateTimestampedReports(false);
